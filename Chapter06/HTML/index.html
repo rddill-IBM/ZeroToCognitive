@@ -1,0 +1,85 @@
+<html><head>
+   <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Chapter 5, Working with Classifiers">
+    <meta name="author" content="Bob Dill, IBM Distinguished Engineer">
+
+    <title>Learn Bluemix Now!</title>
+
+     </head><body class="tutorial" onLoad="initPage()">
+        <div class="cover">
+            <div class="navbar">
+                <div class="container" >
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse" style="background-color: #E0E0E0">
+                            <span class="sr-only" >Toggle navigation</span>
+                            <span class="icon-bar" ></span>
+                            <span class="icon-bar" ></span>
+                            <span class="icon-bar" ></span>
+                        </button>
+                        <a class="navbar-brand" href="#" style="color: #008571;"><span>Zero to Cognitive Tutorial</span></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="active">
+                                <a onClick="eraseName()">Erase Name</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container", id="top" >
+            <div id="modal"></div>
+            <div class="app_container" id="body">
+                <div class="row">
+                    <div class="col-md-6 text-center" style="color: #008571; ">
+                        <h1>Chapter 6: Cookies, sessions and a simple dialog</h1>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <br/>
+                    <div class="col-md-6"><center><img id="microphone" src="icons/microphone.png"> ... <img id="stop" src="icons/stop.png"></center></div>
+                    <br/>
+                </div>
+                <div class="row">
+                  <div class="col-md-6" id="conversation">
+                    <div class="shape bubble2"><p>Hi. My name is Watson. What's your name?</div>
+                    <div class="shape bubble1"><p>Bob</p></div>
+                    <div class="shape bubble2"><p>Hi, Bob. How can I help you today?</div>
+                    <div class="shape bubble1"><p>My client wants to improve the results from their marketing campaigns</p></div>
+                    <div class="shape bubble2"><p>Bob, Your client is most likely in the CPG industry. Would you like to see the rest of the industries?</div>
+                    <div class="shape bubble1"><p>Yes</p></div>
+                 </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><center><a id="classifySpeech" class="btn btn-primary" style="padding-left: 0.3em">Classify Speech.</a></center></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="audioParent">
+                      <audio class="audio" id="a_player">
+                        Your browser does not support the audio element.
+                      </audio>
+                    </div>
+                  </div>
+                </div><!-- row -->
+              </div>
+            </div>
+          </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/watson-speech.js"></script>
+    <script src="js/z2c-speech.js"></script>
+    <script src="js/z2c-NLC.js"></script>
+    <script src="js/z2c-dialog.js"></script>
+    <script src="js/z2c-utilities.js"></script>
+    <link href="CSS/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="CSS/pageStyles.css" rel="stylesheet" type="text/css">
+
+		</body></html>

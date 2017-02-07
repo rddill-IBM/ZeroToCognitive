@@ -1,0 +1,86 @@
+@CHARSET "UTF-8";
+
+.mic_disabled {
+	opacity: 0.7
+}
+.tutorial {background: #D0D0D0; color: #404040;}
+
+.navbar {
+  margin-bottom: 0px;
+}
+.speech-only {
+	height: 5.0em;
+	overflow: scroll;
+	color: #0000AA;
+	background-color: white;
+	opacity: 0.3;
+	font-size: 1.5em
+}
+.text-only {
+	wrap: soft;
+	background-color: transparent;
+	color: #008571;
+	font-size: 1.15em
+}
+tr.hideRow {display: none;}
+.app_container{
+	height: 95vh;
+	width: 480px;
+	position: absolute;
+	left: 5;
+	top: 30;
+}
+.analyze_container{
+	height: 95vh;
+	width: 100%;
+	position: absolute;
+	left: 5px;
+	top: 52px;
+}
+.rightPane{
+	height: 95vh;
+	margin-left: 485px;
+	width: 50%;
+	position: absolute;
+	left: 480;
+	top: 50;
+	background: #FDD600;
+	color: #008571;
+	overflow: scroll;
+}
+.centerPane{
+	height: 100vh;
+	margin-left: 0px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #FDD600;
+	color: #008571;
+	overflow: scroll;
+}
+.cover h1, .cover .h1 { font-size: 3em;}
+.cover .navbar { background-color: #000000;}
+.h2 {font-size: 2em;}
+.col-md-6 {width: 470px;}
+.mic_enabled {
+	opacity: 1;
+}
+
+.watson_dialog {
+	color: blue;
+	font-size: 12px;
+	text-align: right;
+	width: 60%;
+	float: right;
+}
+
+.user_dialog {
+	color: black;
+	font-size: 12px;
+	text-align: left;
+	width: 60%
+}
+.glyphicon-thumbs-up, .ok {background: #00FF00;}
+.glyphicon-thumbs-down, .fail {background: #FF0000;}
+.glyphicon-warning-sign, .warn {background: #FFFF00;}

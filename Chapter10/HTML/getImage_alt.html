@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-6 text-center" style="color: #008571; ">
+    <h1>Chapter 10: Watson Conversations</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" >
+    <form class="box" method="post" action="/images/upload" enctype="multipart/form-data">
+      <div class="box__input">
+        <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+        <br/>
+        <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+        <br/>
+        <button class="box__button" type="submit">Upload</button>
+      </div>
+      <div class="box__uploading">Uploading&hellip;</div>
+      <div class="box__success">Done!</div>
+      <div class="box__error">Error! <span></span>.</div>
+    </form>
+  </div>
+<div class="row">
+  <div class="col-md-6"><center><a id="classifyImage" class="btn btn-primary" style="padding-left: 0.3em">classify an image</a></center>
+</div>
+</div>
+<div class="row, showfocus" id="classifyResults">
+</div>

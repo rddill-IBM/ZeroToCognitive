@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: Z2C-Chapter11
+  host: Z2C
+  disk_quota: 1024M
+  services:
+    - Cloudant NoSQL DB-xx
+    - Retrieve and Rank-xx
+    - Document Conversion-xx

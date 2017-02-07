@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- BEGIN_COPYRIGHT
+
+Copyright 2016 IBM Corp. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+END_COPYRIGHT -->
+
+<schema name="RnRToolingConfig_en"
+        version="1.5">
+    <!-- If you remove this field, you must _also_ disable the update
+         log in solrconfig.xml or Solr won't start. _version_ and update
+         log are required for SolrCloud -->
+    <field name="_version_"
+           type="long"
+           indexed="true"
+           stored="true"/>
+
+    <field name="id"
+           type="string"
+           indexed="true"
+           stored="true"
+           required="true"
+           multiValued="false"/>
+
+    <field name="sourceUrl"
+           type="string"
+           indexed="true"
+           stored="true"
+           multiValued="false"/>
+
+    <field name="title"
+           type="watson_text"/>
+
+    <field name="body"
+           type="watson_text"/>
+
+    <field name="contentHtml"
+           type="string"
+           indexed="false"
+           stored="true"
+           multiValued="false"/>
+
+    <field name="searchText"
+           type="watson_text"
+           multiValued="true"/>
+
+    <field name="indexedTimestamp"
+           type="tdate"
+           indexed="true"
+           stored="true"/>
+
+    <field name="fileName"
+           type="string"
+           indexed="true"
+           stored="true"
+           multiValued="false"/>
+
+    <field name="textSize"
+           type="int"
+           indexed="true"
+           stored="true"
+           required="false"
+           multiValued="false" />
+
+    <field name="sequence"
+           type="int"
+           indexed="true"
+           stored="true"
+           required="false"
+           multiValued="false" />
+
+    <field name="flags"
+           type="string"
+           indexed="true"
+           stored="true"
+           multiValued="true"/>
+
+    <field name="sourceDocId"
+           type="string"
+           indexed="true"
+           stored="true"
+           required="false"
+           multiValued="false" />
+
+    <field name="bodyChecksum"
+           type="string"
+           indexed="true"
+           stored="true"
+           required="false"
+           multiValued="false" />
+
+    <field name="title_lowercase"
+           type="lowercase"
+           indexed="true"
+           stored="false"
+           required="false"
+           multiValued="false" />
+
+    <copyField source="body"
+               dest="searchText"/>
+
+    <copyField source="title"
+               dest="searchText"/>
+
+    <copyField source="fileName"
+               dest="searchText"/>
+
+    <copyField source="title" dest="title_lowercase"/>
+
+    <!-- Dynamic field definitions allow using convention over
+         configuration for fields via the specification of patterns to
+         match field names. EXAMPLE: name="*_i" will match any field
+         ending in _i (like myid_i, z_i) RESTRICTION: the glob-like
+         pattern in the name attribute must have a "*" only at the start
+         or the end. -->
+    <dynamicField name="*_dynamic"
+                  type="ignored"
+                  multiValued="true"/>
+
+    <!-- Field to use to determine and enforce document uniqueness.
+         Unless this field is marked with required="false", it will be a
+         required field -->
+    <uniqueKey>id</uniqueKey>
+
+    <!-- The StrField type is not analyzed, but indexed/stored verbatim.
+         It supports doc values but in that case the field needs to be
+         single-valued and either required or have a default value. -->
+    <fieldType name="string"
+               class="solr.StrField"
+               sortMissingLast="true"/>
+
+    <fieldType name="watson_text"
+               indexed="true"
+               stored="true"
+               omitNorms="false"
+               omitTermFreqAndPositions="false"
+               termVectors="true"
+               termPositions="true"
+               termOffsets="true"
+               class="com.ibm.watson.hector.plugins.fieldtype.WatsonTextField">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.SynonymFilterFactory"
+                    synonyms="synonyms.txt"
+                    ignoreCase="true"
+                    expand="true"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.EnglishPossessiveFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_en.txt"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.StopFilterFactory"
+                    ignoreCase="true"
+                    words="lang/stopwords_en.txt"
+            />
+            <filter class="solr.SynonymFilterFactory"
+                    synonyms="synonyms.txt"
+                    ignoreCase="true"
+                    expand="true"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.EnglishPossessiveFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_en.txt"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <!-- lowercases the entire field value, keeping it as a single token.  -->
+    <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+        <analyzer>
+            <tokenizer class="solr.KeywordTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory" />
+        </analyzer>
+    </fieldType>
+
+    <!-- Since fields of this type are by default not stored or indexed,
+         any data added to them will be ignored outright. -->
+    <fieldType name="ignored"
+               stored="false"
+               indexed="false"
+               multiValued="true"
+               class="solr.StrField"/>
+
+    <fieldType name="boolean"
+               class="solr.BoolField"
+               sortMissingLast="true"/>
+    <fieldType name="int"
+               class="solr.TrieIntField"
+               precisionStep="0"
+               positionIncrementGap="0"/>
+    <fieldType name="float"
+               class="solr.TrieFloatField"
+               precisionStep="0"
+               positionIncrementGap="0"/>
+    <fieldType name="long"
+               class="solr.TrieLongField"
+               precisionStep="0"
+               positionIncrementGap="0"/>
+    <fieldType name="double"
+               class="solr.TrieDoubleField"
+               precisionStep="0"
+               positionIncrementGap="0"/>
+    <fieldType name="tint"
+               class="solr.TrieIntField"
+               precisionStep="8"
+               positionIncrementGap="0"/>
+    <fieldType name="tfloat"
+               class="solr.TrieFloatField"
+               precisionStep="8"
+               positionIncrementGap="0"/>
+    <fieldType name="tlong"
+               class="solr.TrieLongField"
+               precisionStep="8"
+               positionIncrementGap="0"/>
+    <fieldType name="tdouble"
+               class="solr.TrieDoubleField"
+               precisionStep="8"
+               positionIncrementGap="0"/>
+    <fieldType name="date"
+               class="solr.TrieDateField"
+               precisionStep="0"
+               positionIncrementGap="0"/>
+    <fieldType name="tdate"
+               class="solr.TrieDateField"
+               precisionStep="6"
+               positionIncrementGap="0"/>
+    <fieldType name="binary"
+               class="solr.BinaryField"/>
+    <fieldType name="random"
+               class="solr.RandomSortField"
+               indexed="true"/>
+
+    <similarity class="org.apache.lucene.search.similarities.LMDirichletSimilarity"/>
+</schema>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Solr managed schema - automatically generated - DO NOT EDIT -->
+<schema name="RnRToolingConfig_en" version="1.5">
+  <uniqueKey>id</uniqueKey>
+  <similarity class="org.apache.lucene.search.similarities.LMDirichletSimilarity"/>
+  <fieldType name="binary" class="solr.BinaryField"/>
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+  <fieldType name="date" class="solr.TrieDateField" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="double" class="solr.TrieDoubleField" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="float" class="solr.TrieFloatField" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="ignored" class="solr.StrField" indexed="false" stored="false" multiValued="true"/>
+  <fieldType name="int" class="solr.TrieIntField" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="long" class="solr.TrieLongField" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+  <fieldType name="tdate" class="solr.TrieDateField" positionIncrementGap="0" precisionStep="6"/>
+  <fieldType name="tdouble" class="solr.TrieDoubleField" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tfloat" class="solr.TrieFloatField" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tint" class="solr.TrieIntField" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tlong" class="solr.TrieLongField" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="watson_text" class="com.ibm.watson.hector.plugins.fieldtype.WatsonTextField" omitNorms="false" omitTermFreqAndPositions="false" indexed="true" termOffsets="true" stored="true" termPositions="true" termVectors="true">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_en.txt"/>
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt" ignoreCase="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <filter class="solr.KeywordMarkerFilterFactory" protected="lang/protwords_en.txt"/>
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <field name="_version_" type="long" indexed="true" stored="true"/>
+  <field name="body" type="watson_text"/>
+  <field name="bodyChecksum" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="contentHtml" type="string" multiValued="false" indexed="false" stored="true"/>
+  <field name="fileName" type="string" multiValued="false" indexed="true" stored="true"/>
+  <field name="flags" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="indexedTimestamp" type="tdate" indexed="true" stored="true"/>
+  <field name="searchText" type="watson_text" multiValued="true"/>
+  <field name="sequence" type="int" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="sourceDocId" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="sourceUrl" type="string" multiValued="false" indexed="true" stored="true"/>
+  <field name="textSize" type="int" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="title" type="watson_text"/>
+  <field name="title_lowercase" type="lowercase" multiValued="false" indexed="true" required="false" stored="false"/>
+  <dynamicField name="*_dynamic" type="ignored" multiValued="true"/>
+  <copyField source="body" dest="searchText"/>
+  <copyField source="fileName" dest="searchText"/>
+  <copyField source="title" dest="searchText"/>
+  <copyField source="title" dest="title_lowercase"/>
+</schema>

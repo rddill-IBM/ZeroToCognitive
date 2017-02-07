@@ -1,0 +1,17 @@
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&start=now-1d&end=now&count=100&q.enriched.url.enrichedTitle.relations.relation=|action.verb.text=acquire,q.enriched.url.enrichedTitle.keywords.keyword.text=Coca-Cola|&return=enriched.url.url,enriched.url.title
+
+https://gateway-a.watsonplatform.net/calls/data/GetNews?outputMode=json&start=now-1d&end=now&dedup=true&count=5&q.enriched.url.enrichedTitle.keywords.keyword.text=Coca%20Cola&return=enriched.url.url,enriched.url.title&apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48
+
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&start=now-1d&end=now&count=100&q.enriched.url.enrichedTitle.relations.relation=|action.verb.text=acquire,q.enriched.url.enrichedTitle.keywords.keyword.text=coca-cola|&return=enriched.url.url,enriched.url.title
+
+Return a sample document showing all possible output for any query:
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&outputMode=json&start=now-7d&end=now&count=1&return=enriched,original
+
+News about company acquisitions in the past 24 hours:
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&outputMode=json&start=now-1d&end=now&count=100&q.enriched.url.enrichedTitle.relations.relation=|action.verb.text=acquire,object.entities.entity.type=Company|&return=enriched.url.title
+
+News about company fundraising in the past 7 days:
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&start=now-7d&end=now&maxResults=100&q.enriched.url.enrichedTitle.relations.relation=|action.verb.text=raises,object.entities.entity.type=Company|&return=enriched.url.title
+
+News where the article title has a "business" taxonomy category:
+https://gateway-a.watsonplatform.net/calls/data/GetNews?apikey=df7cb052c7ddbcc693369fddfa345d9787d83c48&outputMode=json&start=now-1d&end=now&count=10&q.enriched.url.enrichedTitle.taxonomy.taxonomy_=|label=business,score=%3E0.4|&return=enriched.url.url,enriched.url.title,enriched.url.text

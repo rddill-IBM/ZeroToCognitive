@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-6 text-center" style="color: #008571; ">
+      <h1>Chapter 8: Alchemy News</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" >
+    <table><tr><td>Enter company names and abbreviations for your search. Separate key words with a comma. </td>
+    <td><input id='company', type='text', width=100%, title="name of company to track", class="showfocus"></input></td></tr>
+    <tr><td>Enter number of days to search: </td>
+      <td><input id='days', type='number', min=1, max=180, title="enter a number between 1 and 180", class="showfocus"></input></td></tr>
+    <tr><td>Maximum # of documents to return: </td>
+      <td><input id='count', type='number', min=1, max=100, title="enter a number greater than 1", class="showfocus"></input></td></tr>
+  </table>
+</div>
+<div class="row">
+  <div class="col-md-6"><center><a id="getNews" class="btn btn-primary" style="padding-left: 0.3em">Get News</a></center>
+</div>
+</div>
+<div class="row, showfocus" id="newsfeed">
+</div>

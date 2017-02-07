@@ -1,0 +1,116 @@
+//
+// use this command to retrieve solr configurations
+curl -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/config"
+
+{"solr_configs":[
+  "TOOLING_CONFIG_en_2016_08_03_be1d0870-ace9-11e6-9c6c-8b46a153dc0e",
+  "TOOLING_CONFIG_en_2016_08_03_592e79e0-acf2-11e6-a167-532af8ece6ca"
+  ]}
+
+//
+// use this command to retrieve a specific solr configuration and save it to a specific (confir_1.zip) zip file
+//
+  curl -u “{username}”:”{password}” -o config_1.zip "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/config/TOOLING_CONFIG_en_2016_08_03_be1d0870-ace9-11e6-9c6c-8b46a153dc0e"
+
+  curl -u “{username}”:”{password}” -o config_2.zip "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/config/TOOLING_CONFIG_en_2016_08_03_592e79e0-acf2-11e6-a167-532af8ece6ca"
+
+//
+// use this command to send a new configuration file up to Watson
+//
+curl -X POST -H "Content-Type: application/zip" -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/config/config_1" --data-binary @{path-to-your-zip-file}config_1.zip
+
+//
+// use this command to create a collection. Use this AFTER you have successfully uploaded your configuration file
+//
+curl -X POST -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/solr/admin/collections" -d "action=CREATE&name={name-of-solr-collection-to-create}&collection.configName={name-of-your-solr-config}&wt=json"
+
+{
+	"responseHeader": {
+		"status": 0,
+		"QTime": 11210
+	},
+	"success": {
+		"10.176.43.39:5776_solr": {
+			"responseHeader": {
+				"status": 0,
+				"QTime": 1727
+			},
+			"core": "{name-of-your-solr-collection}_shard1_replica1"
+		},
+		"10.176.45.15:6824_solr": {
+			"responseHeader": {
+				"status": 0,
+				"QTime": 2084
+			},
+			"core": "{name-of-your-solr-collection}_shard1_replica2"
+		}
+	}
+}
+
+//
+// use this command to load the combined document list file into your newly created collection.
+// use this command AFTER you have reviewed and removed document sections.
+//
+curl -X POST -H "Content-Type: application/json" -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/solr/{name-of-your-solr-collection}/update" --data-binary @HTML/IBV_Conversion/docList.json
+
+
+//
+// use this command to delete a solr collection
+//
+curl -X POST -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/solr/admin/collections" -d "action=DELETE&name={name-of-your-solr-collection}&wt=json"
+
+{
+	"responseHeader": {
+		"status": 0,
+		"QTime": 3274
+	},
+	"success": {
+		"10.176.45.15:6824_solr": {
+			"responseHeader": {
+				"status": 0,
+				"QTime": 9
+			}
+		},
+		"10.176.43.39:5776_solr": {
+			"responseHeader": {
+				"status": 0,
+				"QTime": 2510
+			}
+		}
+	}
+}
+
+//
+// use this command to create a ranker for your collection.
+// you can have multiple rankers per collection
+//
+curl -X POST -u “{username}”:”{password}”
+./train.py -u “{username}”:”{password}” -i rankingQuestions.csv -c “{your-solr-cluster-id}” -x {name-of-your-solr-collection} -n "{name-of-your-ranker}"
+
+{
+	"ranker_id": "{id-of-your-solr-ranker}",
+	"name": "{name-of-your-ranker}",
+	"created": "2016-11-28T12:24:16.834Z",
+	"url": "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/rankers/{id-of-your-solr-ranker}",
+	"status": "Training",
+	"status_description": "The ranker instance is in its training phase, not yet ready to accept rank requests"
+}
+
+//
+// use this command to determine the status of a specific ranker
+//
+curl -u “{username}”:”{password}”  "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/rankers/{id-of-your-solr-ranker}"
+
+{
+	"ranker_id": "{id-of-your-solr-ranker}",
+	"name": "{name-of-your-ranker}",
+	"created": "2016-11-28T12:24:16.834Z",
+	"url": "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/rankers/{id-of-your-solr-ranker}",
+	"status": "Available",
+	"status_description": "The ranker instance is now available and is ready to take ranker requests."
+}
+
+//
+// use this command if you want to use curl to test a query against your newly created ranker.
+//
+curl -X POST -u “{username}”:”{password}” "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/solr_clusters/“{your-solr-cluster-id}”/solr/{name-of-your-solr-collection}/fcselect?ranker_id={id-of-your-solr-ranker}&q=ceo%20top%20issues&wt=json&fl=id,title,body,fileName"

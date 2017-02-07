@@ -1,0 +1,39 @@
+Title Page
+Hi, today we're going to create our first Bluemix/Watson app. Let's get started.
+Page 2
+We're going to go through 8 steps in the next 20 minutes.
+(1) We will complete your workstation set-up by installing nodeJS
+(2) We'll get the code from the master repository
+(3) We'll confirm that the Watson speech to text service is connectred to your Bluemi instance and get the necessary credentials
+(4) And then we'll make everything run, first on your workstation, then on bluemix
+Pages 3-5
+The next three pages in this presentation tell you how to install nodejs on your workstation. There is a page for Windows, Linux and Mac OSX. If you haven't already installed nodeJS, pause the video and follow the directions to install nodejs. If you're not sure if nodejs is installed, open a Terminal or Command Prompt and type in node -v. You should get a response back like v6.4.0. If your computer doesn't recognize the node command, follow the directions on pages 3-5
+Page 6-7 - go to Github.
+OK, you have nodejs installed, let's get the code. We're going to get it from github and use the github fork process. The reasons for this are explained in the deck.
+Go to this URL: https://github.com/rddill-IBM/ZeroToCognitive and click on the fork button in the top right hand corner your browser window. Tell GitHub where to create your version of this repository and click on 'go'.
+Your browser will automatically go to the newly created repository. Click Clone and the click on Use Github Desktop.
+Success!! You now have the tutorial loaded to your workstation.
+Page 8 - even though nodejs is installed, your app won't yet run. Open a terminal window and navigate to your local copy of your repository. type in cd ~/Documents/GitHub/ZeroToCognitive/Chapter03/ and press enter. Type npm install and press enter. npm is the node package manager and it will read your package.json file to figure out what node modules are needed to make your application run.
+install the watson sdk: npm install watson-developer-cloud --save and press enter. IF it's not already there, the node package manager will install the watson sdk. --save means to also put an entry into your package.json file.
+Let's see if it works: type node index.js. Success!!! Node responds by telling you that z2c_chapter03 is running on port 6003. Go to your browser and give it this url: localhost:6003. You should see the same web page on your waorkstation as you see in this tutorial.
+Page 9
+Let's do some light programming. The background isn't all that great, so let's change it to something a little easier to work with. Most visual characteristics of a web page are managed through CSS, Cascading Style Sheets. First, we have to know what to change. We'll start with the index.html file in the HTML folder. Near the top of that file, you'll see an HTML tag for body, which I've highlighted here. There are two important parts of that definition. The first is the class=tutorial tag and the second is the onload=initPage() command. CSS looks for class tags.
+Go to your HTML/CSS folder and look at row 6. .tutorial tellas CSS to look for any occurence of claass=tutorial in your html files and change the background and foreground to the colors specified on line 6. Change background from 040404 to D0D0D0 and then save the file.
+Go to your browser and click on the relaod button while holding down the shift key. Your browser page should look like what you see in the tutorial.
+Congrats! You're now creating your own version of the app.
+Page 10
+The other part of the body tag that helps us is the onLoad statement. Go to HTML/js and open the z2c-speech.js file. In it, you'll see an empty routine called initpage.This routine has two jobs: (1) enable and disable the microphone and stop icons based on what the user is doing and
+(2) connect to the Watson Speech to Text service and use it to turn spoken words into digital text.
+All of the code to do this is in the Documentation/answers folder.
+Open the z2c-speech_complete.js file in the Documentation/answers folder. After we've reviewed this file, we're going replace the contents of the z2c-speech.js file with this one.
+Rows 7-9 add a class to the microphone and stop icons. This tells CSS to change their visual behavior and is something we can test for in javascript to know if we should respond to a click on that icon.
+Row 11 tells javascript that it needs to do something every time the microphone icon is clicked. Row 14 checks to see if the microphone is enabled. If not, exit immediately.
+Rows 16-19 toggles the states of the microphone and stop icons
+Row 20 calls the server to get the speech to text token ($.get) and ($.when) when that call returns, uses the returned token to
+Row 22 activate the microphone and
+Row 24 put the converted text into an HTML location called speech
+Having turned on the microphone, it would be really nice to be able to turn it back off. Line 31 starts another on click routine, this time for stop - the stop icon on your display.
+line 33 turns off the stream if it's on
+lines 34-38 toggle the icon states. 
+Copy this complete routine into your z2c-speech.js  file, replacing the current empty routine and save it.
+OK, that's the browser piece. Now let's take care of the server connection - we have to add the code to support the $.get call in our javascript file.
