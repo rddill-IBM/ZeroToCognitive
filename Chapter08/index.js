@@ -34,7 +34,6 @@ var sessionBase  = require('./controller/sessionManagement');
 var sessionStore = Object.create(sessionBase.SessionObject);
 
 var vcapServices = require('vcap_services');
-var watson = require('watson-developer-cloud');
 var uuid = require('uuid');
 var env = require('./controller/env.json');
 var sessionSecret = env.sessionSecret;
