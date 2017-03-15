@@ -34,6 +34,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('appName', 'z2c-chapter04');
+//app.set('port', process.env.PORT || 6008);
 app.set('port', appEnv.port);
 
 app.set('views', path.join(__dirname + '/HTML'));
