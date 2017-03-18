@@ -3,8 +3,8 @@ applications:
   memory: 128M
   instances: 1
   domain: mybluemix.net
-  name: Z2C-rddill
-  host: Z2C
+  name: Z2C-pm031
+  host: Z2C-pm031
   disk_quota: 1024M
   services:
-    - Speech to Text-xx
+    - Speech to Text-3f
