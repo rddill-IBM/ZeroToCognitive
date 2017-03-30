@@ -52,7 +52,8 @@ var config = {
           {"level": 3, "min_size": 13, "max_size": 18, "bold": false, "italic": false},
           {"level": 3, "min_size": 13, "max_size": 18, "bold": true},
           {"level": 4, "min_size": 11, "max_size": 13, "bold": true, "italic": false}
-        ] } }
+        ] } },
+    "conversion_target": 'ANSWER_UNITS'
       };
 
 exports.convert = function(req, res)
