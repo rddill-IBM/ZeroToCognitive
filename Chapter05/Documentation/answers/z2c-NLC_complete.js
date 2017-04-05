@@ -17,7 +17,7 @@
 function checkNLC(_display, _source)
 {
   var options = {};
-  options.cquery = _source[0].innerText;
+  options.cquery = _source[0].innerHTML;
   $.when($.get(_display), $.post('/api/understand/classifyInd', options)).done(function(_page, _nlc_results){
     console.log("page returned");
     var _target= $("#modal");
