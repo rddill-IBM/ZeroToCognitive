@@ -57,7 +57,7 @@ function login()
 
 function register()
 {
-  userID = $('#uid').val();
+  userID = $('#uid').val().trim().toLowerCase();
   var options = {}; options.uid = userID; options.pw = $('#pw').val();
   var url = "https://"+document.location.host+'/auth/register';
   $.when($.post(url, options)).then(
