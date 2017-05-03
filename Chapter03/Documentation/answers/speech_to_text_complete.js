@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- var extend = require('extend');
+var extend = require('extend');
 var watson = require('watson-developer-cloud');
 var vcapServices = require('vcap_services');
 

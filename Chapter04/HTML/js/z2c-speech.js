@@ -20,10 +20,10 @@
 function initPage ()
 {
   var _mic = $('#microphone'); var _stop = $("#stop");
-  var readText = $("#readText"); var stream = null;
-    _mic.addClass("mic_enabled");
+  var readText = $("#readText");
+      _mic.addClass("mic_enabled");
     _stop.addClass("mic_disabled");
-
+  var stream = null;
 
   _mic.on("click", function ()
     {
@@ -45,22 +45,53 @@ function initPage ()
         }
       });
 
-  _stop.on("click",  function() {
-          console.log("Stopping text-to-speech service...");
-          if (stream != undefined) {stream.stop(); }
-          _mic.addClass("mic_enabled");
-          _mic.removeClass("mic_disabled");
-          _stop.addClass("mic_disabled");
-          _stop.removeClass("mic_enabled");
-        });
+  _stop.on("click",  function()
+  {
+    console.log("Stopping speech-to-text service...");
+    if (stream != undefined) {stream.stop(); }
+    _mic.addClass("mic_enabled");
+    _mic.removeClass("mic_disabled");
+    _stop.addClass("mic_disabled");
+    _stop.removeClass("mic_enabled");
+  });
 
-  readText.on("click",  function() {
-          console.log("initiating text-to-speech service...");
+  readText.on("click",  function()
+  {
+    console.log("initiating text-to-speech service...");
+    if (stream != undefined) {stream.stop(); }
+    _mic.addClass("mic_enabled");
+    _mic.removeClass("mic_disabled");
+    _stop.addClass("mic_disabled");
+    _stop.removeClass("mic_enabled");
 
-          });
+    var sessionPermissions = JSON.parse(localStorage.getItem('sessionPermissions')) ? 0 : 1;
+    var textString = $("#chat").val();
+    var voice = 'en-US_AllisonVoice';
+    var audio = $("#a_player").get(0);
+    var synthesizeURL = '/api/text-to-speech/synthesize' +
+      '?voice=' + voice +
+      '&text=' + encodeURIComponent(textString) +
+      '&X-WDC-PL-OPT-OUT=' +  sessionPermissions;
+    audio.src = synthesizeURL
+    audio.pause();
+    audio.addEventListener('canplaythrough', onCanplaythrough);
+    audio.muted = true;
+    audio.play();
+    $('body').css('cursor', 'wait');
+    $('.readText').css('cursor', 'wait');
+    return true;
+  });
 }
 
 function onCanplaythrough() {
   console.log('onCanplaythrough');
-
+  var audio = $('#a_player').get(0);
+  audio.removeEventListener('canplaythrough', onCanplaythrough);
+  try { audio.currentTime = 0; }
+  catch(ex) { // ignore. Firefox just freaks out here for no apparent reason.
+            }
+  audio.controls = true;
+  audio.muted = false;
+  $('html, body').animate({scrollTop: $('#a_player').offset().top}, 500);
+  $('body').css('cursor', 'default');
 }
