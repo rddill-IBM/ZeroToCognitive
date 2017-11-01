@@ -12,8 +12,7 @@
     "type": "git",
     "url": "https://github.com/rddill-IBM/ZeroToCognitive"
   },
-  "engines": {
-  },
+  "engines": {},
   "keywords": [
     "Watson",
     "Cognitive",
@@ -29,6 +28,7 @@
     "connect-cloudant": "^1.0.6",
     "cookie-parser": "^1.4.1",
     "crypto": "0.0.3",
+    "date-format": "^1.1.0",
     "ejs": "^2.4.1",
     "events": "^1.1.1",
     "express": "^4.13.4",
