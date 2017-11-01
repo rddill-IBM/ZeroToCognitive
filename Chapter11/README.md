@@ -11,12 +11,12 @@ to us and, as well, can do things like create the necessary configuration file i
 in the browser rather than only on our laptops. We can still do what we did in the past, we 
 just have more options, now. 
 
-##Concept Changes
+## Concept Changes
 
-##Process Changes
+## Process Changes
 
-##Code Changes
+## Code Changes
 
-###Server Side
+### Server Side
 
-###Client (Browser)
+### Client (Browser)
