@@ -13,7 +13,10 @@ just have more options, now.
 
 ##Concept Changes
 
+##Process Changes
+
 ##Code Changes
+
 ###Server Side
 
 ###Client (Browser)
