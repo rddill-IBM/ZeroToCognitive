@@ -2,10 +2,23 @@
 
 [Return to Table of Contents](../README.md)
 
-This is an update to the previous Chapter 8, where we used Alchemy. Much of this chapter is unchanged, however you will see changes in the following three files: 
+This is an update to the previous Chapter 8, where we used Alchemy. This will require that you activate the Watson Discovery service in Bluemix, replacing the Alchemy service if you had it. Much of this chapter is unchanged, however you will see changes in the following three files: 
 ## Server Side changes
  - **controller/features/discovery.js**
  This file is new and has two routines exported from it, one is intended to be informative, but is not used. That's the 'getID' function. The other is, appropriately, 'getNews', which is explained in the javascript file nearly line by line. 
+ - **env.json**
+ Because we're using Discovery, rather than Alchemy, we'll add Discovery to our env.json file: 
+ ```JSON
+         "watson_discovery": {
+          "credentials": {
+            "version": "v1",
+            "version_date": "2017-10-16",
+            "url": "https://gateway.watsonplatform.net/discovery/api",
+            "password": "<Your password here>",
+            "username": "<your username here>"
+          }
+        },
+```
  - **controller/router.js**
  There are two changes to this file, one is the necessary statements for the new get and post commands. The other is a routine which logs to the terminal window each request to the server. I've started adding this to all of my demonstrations, primarily to help me both understand and explain what is going on between the client (browser) and the server. 
  That code is the following: 
