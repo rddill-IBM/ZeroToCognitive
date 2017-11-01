@@ -22,7 +22,7 @@ This is the tutorial site for the Zero to Cognitive Series. Each chapter in the 
 7). SSL, https: sessions and users				    (set up security, use cloudant for sessionStore, manage user profiles)  
     demo: https://z2c-c07.mybluemix.net/
 
-8). Understanding the Alchemy	APIs		  		  (Watson Alchemy - using news and text)  
+8). [Understanding the Watson Data APIs](./Chapter08/README.md)		  	  (Watson Alchemy - using news and text)  
     demo: https://z2c-c08.mybluemix.net/
 
 9). Alchemy Image				                      (Watson Alchemy - analyzing images)  
@@ -31,7 +31,7 @@ This is the tutorial site for the Zero to Cognitive Series. Each chapter in the 
 10). Watson Conversations                     (Watson Conversations)  
     demo: https://z2c-c10.mybluemix.net/
 
-11). Finding Answers                					(Document Conversion, Retrieve And Rank)  
+11). [Finding Answers](./Chapter11/README.md)                					(Watson Discovery)  
     demo: https://z2c-c11.mybluemix.net/
 
 12). How do I get started on my client app?		Design Thinking, Stories, Architecture, Keeping it simple 
