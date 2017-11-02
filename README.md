@@ -5,7 +5,7 @@ This is the tutorial site for the Zero to Cognitive Series. Each chapter in the 
 
 1). The Story, Architecture for this app
 
-2). Setting up Bluemix
+2). [Setting up Bluemix](./Chapter02/README.md)
 
 3). Building your first Watson App					  (Watson Speech to Text)  
     demo: https://z2c-c03.mybluemix.net/

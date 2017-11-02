@@ -2,7 +2,12 @@
 
 [Return to Table of Contents](../README.md)
 
-This is an update to the previous Chapter 8, where we used Alchemy. This will require that you activate the Watson Discovery service in Bluemix, replacing the Alchemy service if you had it. Much of this chapter is unchanged, however you will see changes in the following three files: 
+This is an update to the previous Chapter 8, where we used Alchemy. This will require that you activate the Watson Discovery service in Bluemix, replacing the Alchemy service if you had it. Much of this chapter is unchanged. There is a structural change to the application and changes in four files, described below. 
+## Structural change
+The original Chapter 8 called the alchemy service directly from the browser. This was, in part, because most of the Alchemy documentation showed the service being accessed from curl commands, which require that you call a URL rather than using the SDK. Equally, it was an opportunity for you to experiment with accessing these services directly from the browser. This does have a notable downside that the apikey is exposed in the browser side javascript. 
+
+In this updated version, we are removing the direct call from the browser and using the same approach as used in other chapters, which is to call Watson services from the nodeJS server. This means that we need to add code to the server *discovery.js* which handles access to the news service and all credential requirements. The browser will still call a URL and process the same information, it will just call a different url and will need less code.
+
 ## Server Side changes
  - **controller/features/discovery.js**
  This file is new and has two routines exported from it, one is intended to be informative, but is not used. That's the 'getID' function. The other is, appropriately, 'getNews', which is explained in the javascript file nearly line by line. 
