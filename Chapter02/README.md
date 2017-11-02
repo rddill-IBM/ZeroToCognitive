@@ -12,7 +12,7 @@ In this chapter, we will do the following things:
 
 We are using the publicly available IBM Cloud, which at this writing has instances located in North America, Germany, Australia and the UK.
 The link for IBM Cloud, or Bluemix as it was formerly known, is http://console.bluemix.net, this URL will bring you to this page: 
-![ScreenShot](./Documentation/screenshots/IBM_Cloud_signup.png)
+![ScreenShot](https://raw.githubusercontent.com/rddill-IBM/ZeroToCognitive/master/Chapter02/Documentation/screenshots/Fork.png)
 
 At this point, you can either sign up for IBM Cloud, or log in. If you already have an id on IBM Cloud, then you can go 
 to one of the following regional links: 
