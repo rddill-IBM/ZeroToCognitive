@@ -100,6 +100,10 @@ function accOff(target)
 		}
 }
 
+/**
+ * check to see if this browser is able to support drag and drop operation
+ * @returns true if drag and drop is supported, false if it is not able to be supported
+ */
 function checkImageDroppable()
 {
   var div = document.createElement('div');

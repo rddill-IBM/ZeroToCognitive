@@ -19,14 +19,27 @@
 var a_player_target = "#a_player";
 var NLC_Button ; var stt_out; var msg_out;
 var _mic; var _stop;
+var b_token;
+/**
+ * invoke this function when the html page has completed loading
+ */
 function initPage ()
 {
+  // initialize the b_token value to false. This means that we have not yet retrieved the speech to text token. 
+  b_token = false;
+  // create a cookie to hold the speech to text token
   document.cookie = "stt-token=";
   _mic = $('#microphone'); _stop = $("#stop");
   var readText = $("#readText"); NLC_Button = $("#classifySpeech");
+  // where do we place speech to text output
   var stt_target = '#speech'; stt_out = $(stt_target);
+  // local variables to hold chat and conversation html targets
   var chat = $('#chat'); var dialog_target = '#conversation';
   var stream;
+  // code refactor!
+  // the inline code we used to enable and disable the microphone and stop buttons as been
+  // refactored into a single function call, so that we stop replicating that logic
+  // throughout the code.
   toggle_mic(_mic, _stop, false)
 
   _mic.on("click", function ()
@@ -34,7 +47,9 @@ function initPage ()
       var _className = this.className;
       if(this.className == "mic_enabled")
       {
+        // invoke the toggle function
         toggle_mic(_mic, _stop, true)
+        // get whatever is the next step in the dialog. That logic is defined and controlled in the z2c-dialog.js file
         nextStep();
         }
       });
@@ -54,7 +69,13 @@ function initPage ()
     });
     startDialog(dialog_target);
 }
-// enable/disable mic
+/**
+ * This is a refactoring of the logic from previous chapters which toggled the state
+ * of the microphone and stop icons. 
+ * @param {jQuery object} _microphone - Jquery object pointing to the microphone html element
+ * @param {jQuery object} _stopbutton - Jquery object pointing to the stop html element
+ * @param {boolean} b_on - boolean flag identifying if this is to enable the stop button (true) or the microphone (false)
+ */
 function toggle_mic(_microphone, _stopbutton, b_on)
 {
   if(b_on) // microphone button clicked, enable stop button
@@ -72,18 +93,46 @@ function toggle_mic(_microphone, _stopbutton, b_on)
     _stopbutton.removeClass("mic_enabled");
   }
 }
-// create a function to handle speech to text in general
-// pass in the name of the HTML object which will display the received text.
+
+/**
+ * create a function to handle speech to text in general
+ * pass in the name of the HTML object which will display the received text. 
+ * This function has been refactored so that the get token function is called only once, rather
+ * than every time the microphone has been activated.
+ * @param {jQuery object} _target - Jquery object pointing to the speech to text output html element
+ */
 function listen(_target)
 {
-  $.when($.get('/api/speech-to-text/token')).done(
-    function (token) {
+  // b_token is a boolean (e.g. only true or false) flag that tells us if we have previously retrieved a token 
+  if (!b_token)
+  {
+    // get the token
+    $.when($.get('/api/speech-to-text/token')).done(
+      function (token) {
+        // save the token returned by the server
+        document.cookie = "stt-token="+token;
+        // set the boolean flag to indicate that we have both retrieved AND saved the token
+        b_token = true
+        // set up the stream from the microphone to Watson
+        stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+           token: token,
+           outputElement: _target // CSS selector or DOM Element
+         });
+         // if there is an error, display it on the browser console.
+        stream.on('error', function(err) { console.log(err); });
+      });
+  }else
+  {
+      // set up the stream from the microphone to Watson
       stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-         token: token,
-         outputElement: _target // CSS selector or DOM Element
-       });
-      stream.on('error', function(err) { console.log(err); });
+        // retrieve the previously saved token
+      token: getCookieValue("stt-token"),
+      outputElement: _target // CSS selector or DOM Element
     });
+    // if there is an error, display it on the browser console.
+   stream.on('error', function(err) { console.log(err); });
+
+  }
 }
 // create a function to handle text to speech in general
 // pass in the text string to be read, the audio player to use and if the audio player should be displayed.

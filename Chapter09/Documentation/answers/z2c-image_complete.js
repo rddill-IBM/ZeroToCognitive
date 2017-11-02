@@ -13,8 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// z2c-alchemy.js
+// z2c-images.js
 var b_Droppable, _url, _image, droppedFiles, $form, c_res ;
+// in this app, collections and locations are matched JSON objects. The logic, in retrospect, would be simpler if these were 
+// combined into a single json object. If you want to do that, a structure that would be more effective would be:
+// {"<collection_name>": {"id": "<image_id>", "path": "<path>"}, "<collection_name2>": {"id": "<image_id>", "path": "<path>"}, etc}
+// for example, using the first two image sets below: 
+//  {"water": {"id": "water_8fe4c6", "path": "/images/Landscape/Water/"},"collage": {"id": "collage_fe9bf8", "path": "/images/Collage/"}}
 var collections = {
   "water": "water_8fe4c6",
   "collage": "collage_fe9bf8",
@@ -36,35 +41,50 @@ var locations = {
   "garden": "\\images\\Landscape\\Garden\\"
 };
 
+// visual recognition has an image limit of 2Mb
 var maxSize = 2097152;
 
+/**
+ * initialize the visual recognition page.
+ */
 function initiateVR()
 {
   c_res = $("#classifyResults");
   _url = $("#imageURL");
   _image = $("#image");
   console.log("initiateVR");
+  // using the checkImageDroppable function in z2c-utilities.js, ensure that the browser supports drag and drop operation
   b_Droppable = checkImageDroppable();
   if (b_Droppable)
   {  console.log("browser supports drag and drop: "+b_Droppable);
+      // initialize variables
       droppedFiles= false;
       $form = $('.image')
       var $input    = $form.find('.imageReceiver');
       var droppedFiles = false;
+      // the image receiver is inside an html <form> object
       $form.on('submit', function(e) {
         e.preventDefault();
+        // the submit button was clicked, but no file was dropped or selected
         if (droppedFiles == false) {c_res.append("<h3>Error: please select a file, first."); return;}
         else
+        // files have a max size of 2Mb
           {if (droppedFiles[0].size > maxSize) {c_res.append("<h3>Error: File size too large. Image must be smaller than 2MB."); return;}
           else
+          // only jpeg and png files are supported .... well, it works with gif, too, just not as well
             {if ((droppedFiles[0].type != "image/jpeg") && (droppedFiles[0].type != "image/png")) {c_res.append("<h3>Error: Only jpeg and png files are supported</h3>"); return;}
               else
               {
+                // everything is good. let's proceed
+                // display a busy icon
               c_res.empty(); c_res.append("<center><img src='icons/loading.gif' /></center>");
+              // get the image data
               var ajaxData = new FormData();
                console.log("processing files: $input.attr('name'): "+ $input.attr('name'));
                ajaxData.append( droppedFiles[0].name, droppedFiles[0] );
-
+                // ajax is asynchronous javascript execution. Send the request to the server
+                // let the browser do other things
+                // then respond when the server returns
                $.ajax({
                  url: $form.attr('action'),
                  type: $form.attr('method'),
@@ -73,29 +93,39 @@ function initiateVR()
                  cache: false,
                  contentType: false,
                  processData: false,
-                 complete: function(data) { displayObjectValues("complete: ", data);
-                  displayImageClassificationResults(c_res, data.responseText)},
+                 // wait until everything comes back, then display the classification results
+                 complete: function(data) { displayImageClassificationResults(c_res, data.responseText)},
                  success: function(data) { },
+                 // oops, there was an error, display the error message
                  error: function(err) { console.log("error: "+err); displayObjectValues("error:", err); }
                 });
               }
             }
           }
         });
+        // don't do any default processing on drag and drop
         _image.on('drag dragstart dragend dragover dragenter dragleave drop',
         function(e) { e.preventDefault(); e.stopPropagation(); });
+        // change how the drag target looks when an image has been dragged over the drop area
         _image.on('dragover dragenter', function() {   _image.addClass('dragover'); });
+        // remove drag target highlighting when the mouse leaves the drag area
         _image.on('dragleave dragend drop', function() { _image.removeClass('dragover'); });
+        // do the following when the image is dragged in and dropped
         _image.on('drop', function(e) { droppedFiles = e.originalEvent.dataTransfer.files;
           console.log("dropped file name: "+droppedFiles[0].name);
-          displayObjectValues("droppedFiles[0]: ", droppedFiles[0]);
+          // build a table to display image information
           var fileSpecs = "<table width='90%'><tr><td>File Name</td><td>"+droppedFiles[0].name+"</td></tr>";
+          // check image size
           var tooBig = (droppedFiles[0].size > maxSize) ? " ... File size too large" : "";
+          // check image type
           var imageType = ((droppedFiles[0].type == "image/jpeg") || (droppedFiles[0].type == "image/png")) ? "" : " ... Only jpeg and png files are supported";
           fileSpecs += "<tr><td>File Size</td><td>"+droppedFiles[0].size+tooBig+"</td></tr>";
           fileSpecs += "<tr><td>File Type</td><td>"+droppedFiles[0].type+imageType+"</td></tr></table>";
+          // clear the target
           c_res.empty();
+          // display the table
           c_res.append(fileSpecs);
+          // display the image
       		var reader = new FileReader();
       		reader.onload = function(e) {
             var __image = '<center><img id="fileToLoad" src="' + e.target.result + '", height=200 /></center>'
@@ -103,55 +133,87 @@ function initiateVR()
             _image.append(__image); }
       		reader.readAsDataURL(droppedFiles[0]);
         });
+        // update the image area css
       _image.addClass("dd_upload");
   }
+  // sorry, but your browser does not support drag and drop. Time to finally do that upgrade?
   else {  console.log("browser does not support drag and drop: "+b_Droppable); }
 }
 
+/**
+ * display the results of the image classification process
+ * @param {String} _target - the html element to receive the results
+ * @param {String} _data - the image information to display
+ */
 function displayImageClassificationResults(_target, _data)
 {
+  // empty the html target area
   _target.empty();
   console.log("displayImageClassificationResults entered with: "+_data);
+  // turn the returned string back into a JSON object
   var imageResults = JSON.parse(_data);
+  // create a display table
   var _tbl = "<table width=90%><tr><th>Image Class</th><th>Probability</th><tr>";
+
   var _image = imageResults.images[0].image;
-  displayObjectValues("ImageResults.images[0]: ", imageResults.images[0]);
-  displayObjectValues("ImageResults.images[0].classifiers[0].classes: ", imageResults.images[0].classifiers[0].classes);
+  // iterate through the classification results, displaying one table row for each result row
   for (each in imageResults.images[0].classifiers[0].classes)
     { (function (_idx, _obj) {
       var _disabled = (collections[_obj[_idx].class] == null) ? ", mic_disabled" : "";
     _tbl += '<tr><td class="col-md-6'+_disabled+'"><a onclick="findInCollection(\''+_image+'\',\''+_obj[_idx].class+'\')" class="btn btn-primary, showfocus">'+_obj[_idx].class+'</a></td><td>'+_obj[_idx].score+'</td></tr>"';
   })(each, imageResults.images[0].classifiers[0].classes)
     }
+    // close the table
     _tbl += "</table>";
+    // and append it to the target.
     _target.append(_tbl);
 }
 
+/**
+ * find an image within an image collection
+ * @param {String} image - the image to search for in the provided set
+ * @param {String} collection - the name of the collection to search
+ */
 function findInCollection(image, collection)
 {
+  // empty the target and display an animated gif
   c_res.empty(); c_res.append("<center><img src='icons/loading.gif' /></center>");
+  // if the collection is not available, update the page with an appropriate message
   if(collections[collection] == null) {c_res.append("<p>I'm sorry, but the "+collection+" is not yet available.")}
   console.log("requesting search for image "+image+" in collection: "+collection);
+  // set the post options
   var options = {};
   options.image = image; options.collection = collections[collection];
+  // find a similar image
   $.when($.post('/images/find', options)).done(function(res){
     console.log(res);
+    // display the find results
       displayCollectionResults(collection, res);
     });
 
 }
+/**
+ * set the document cookies to update the previous and next steps
+ * @param {String} type - the classified type of image
+ * @param {String} _collection - the result set from the find similar process
+ */
 function displayCollectionResults(type, _collection)
 {
+  // empty the html target
   c_res.empty();
-//  var found = JSON.parse(_collection);
   var found = _collection;
+  // get the name of the source file
   var sourceName = found.image_file;
+  // create a display table
   var tableOut = "<table width='95%'><tr><th>Image Name</th><th>Image</th><th>Confidence</th><tr>";
+  // iterate through the found images, displaying each one with it's name, a picture and the confidence level
   for (each in found.similar_images)
   {(function(_idx, _obj){
     tableOut += "<tr><td>"+_obj[_idx].image_file+"</td><td><center><img class='showfocus' src='"+locations[type]+_obj[_idx].image_file+"', height=200 /></center></td><td>"+_obj[_idx].score+"</td></tr>";
   })(each, found.similar_images);}
+  // close the table
   tableOut += "</table>";
+  // and display it
   c_res.append(tableOut);
 
 }

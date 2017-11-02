@@ -22,33 +22,53 @@ var _input;
 var _conversation;
 var _context = {};
 
-// initialize the page
+/**
+ * Initialize the page
+ */ 
 function initiateConversation()
 {
   _input = $("#textInput");
   _conversation = $("#conversation");
   _conversation.empty()
+  // start the conversation with Watson
   getResponse("Hi There!");
 }
+
+/**
+ * get the user's response in the conversation and send it to Watson
+ */ 
 function getMessage()
  {
+   // copy the conversation from the text input box and create a new text bubble with that text
    _conversation.append('<div class="shape bubble1"><p>'+_input.val()+"</p></div>");
+   // connect to the server and get the next step
    getResponse(_input.val());
+   // empty the text input box
    _input[0].value = "";
 }
 
+/**
+ * Connect to Watson conversation and get the next step
+ * @param {String} _text - text to be sent to Watson
+ */ 
 function getResponse(_text)
 {
+  // initialize options
    var options = {};
    options.input = _text;
    options.context = _context;
+   // request the next step from our nodejs server
    $.when($.post("/api/response", options)).then(
      function(res, _type, _jqXHR)
-     {console.log("z2c-conversations.js getMessage Success res"+res);
+     {
+       // this function is entered if the request was successful
+       console.log("z2c-conversations.js getMessage Success res"+res);
        _conversation.append('<div class="shape bubble2"><p>'+res.output.text+"</p></div>");
      },
    function(res, _type, _jqXHR)
-     { console.log("z2c-conversations.js getMessage Failure res.responseText"+res.responseText);
+     { 
+       // this function is entered if the request was unsuccessful
+       console.log("z2c-conversations.js getMessage Failure res.responseText"+res.responseText);
       _conversation.append('<div class="shape bubble2"><p>'+res.responseText+"</p></div>");
      });
  }
