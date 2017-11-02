@@ -12,7 +12,7 @@ In this chapter, we will do the following things:
 
 We are using the publicly available IBM Cloud, which at this writing has instances located in North America, Germany, Australia and the UK.
 The link for IBM Cloud, or Bluemix as it was formerly known, is http://console.bluemix.net, this URL will bring you to this page: 
-![ScreenShot](/assets/IBM_Cloud_signup.png)
+![IBM Cloud Signup](assets/IBM_Cloud_signup.png)
 
 At this point, you can either sign up for IBM Cloud, or log in. If you already have an id on IBM Cloud, then you can go 
 to one of the following regional links: 
@@ -42,14 +42,16 @@ for your operating system.
  - Git Installers: https://git-scm.com/downloads 
  - Git Documentation here: https://git-scm.com/doc
 
-## Get the Zero To Cognitive Repository![Fork](/assets/Fork.jpg)![IBM_Cloud_signup](/assets/IBM_Cloud_signup.png)
+## Get the Zero To Cognitive Repository
+
+![Fork](/assets/Fork.jpg)
 The Zero to Cognitive repository, which you're reading right now, is on public github. I encourage you to use the fork process to 
 create your own personal version of this repository. That way you can make updates to your own code and share your code with others. 
 This repository will not accept updates. 
 ### Fork the master Repository
 To fork the repository, go to this [link](https://github.com/rddill-IBM/ZeroToCognitive).
 When you do that, you will see a page that looks similar to the following: 
-![ScreenShot](/assets/Fork.jpg)
+![ScreenShot](assets/Fork.jpg)
 Please note that on the bottom left, the word 'master' is showing on the branch button. You definitely want that! Also, you can see that 
 the fork button is circled on the top right corner. Click that button. When you do so, it will either automatically create a copy of 
 this repository in your git space, or it will ask you where to put it if you have multiple git spaces or organizations 
