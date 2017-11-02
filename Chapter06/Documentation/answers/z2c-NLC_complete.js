@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 // displayNLC results
+
+/**
+ * format the classes to display in the provided html element
+ * @param {String} _target - Jquery object pointing to the html target element
+ * @param {Array} _results - the array of results returned by the classifier
+ */
 var industryTable = "#industryResult";
 var nlc_classes; var industryPage="displayNLC.html";
 
@@ -35,6 +41,13 @@ function displayNLC(_target, _results)
   target.append("</table>");
 }
 
+/**
+ * This is a rewrite of the checkNLC function from the previous chapter to integrated the 
+ * checking process into the custom dialog for this chapter and to save the classification results
+ * for later display, should the user choose that option
+ * @param {String} _target - Jquery object pointing to the html target element
+ * @param {Array} _results - the array of results returned by the classifier
+ */
 function getIndustryClassification(_source, _string)
 {
   var options = {};
@@ -48,6 +61,19 @@ function getIndustryClassification(_source, _string)
   });
 }
 
+/**
+ * This function extracts the code which created the 'modal' window in the previous chapter and
+ * and puts it into a new function. The major change to the logic in this routine is the
+ * addition of the 'cbfn' parameter. cbfn is an abbreviation which I use to indicate that this
+ * is a CallBackFuNction. That is, when setModal is called, it expects a function name to be
+ * passed in as a parameter. That function is called when the modal pattern is in place; in the
+ * logic of this application, the callback function will be the displayNLC results logic.
+ * This approach allows us to use the displayNLC logic without change (lower short and long term maintenance).
+ * @param {String} _display - html page to load
+ * @param {javascript function name} cbfn - the callback function to invoke when complete
+ * @param {String} _modalTarget - Jquery object pointing to the html target element
+ * @param {Array} _results - the array of results returned by the classifier
+ */
 function setModal(_display, cbfn, _modalTarget, _results)
 {
   $.when($.get(_display)).done(function(_page){
@@ -60,6 +86,8 @@ function setModal(_display, cbfn, _modalTarget, _results)
       $("#modal").empty();
       nextStep();
     });
+    // new to this chapter, invoke the callback function which was passed in to this
+    // routine when it was invoked.
     cbfn($(_modalTarget), _results);
   });
 }

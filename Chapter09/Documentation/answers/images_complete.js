@@ -22,10 +22,19 @@ var apiKey = require("../../env.json").visual_recognition.api_key;
 var vr_classifier = require("../../env.json").vr_classifier_id;
 
 
-exports.upload= function(req, res){
+/**
+ * upload transfers the designated file from the browser to the server
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
+exports.upload= function(req, res, next){
   console.log("======> upload entered");
   req.pipe(req.busboy);
   req.busboy.on('file', function(fieldname, file, filename) {
+    // not all systems are friendly when there are spaces in a file name. 
+    // if we find any, replace them with an underscore
       var fileName = filename.replace(/ /g,"_");
       var newFile = path.join(path.dirname(require.main.filename),'images',fileName);
       var fd = fs.openSync(newFile, 'w');
@@ -35,15 +44,25 @@ exports.upload= function(req, res){
     });
 }
 
-exports.classify= function(req, res){
+/**
+ * classify saves the provided image and then sends that image to watson for classification
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
+exports.classify= function(req, res, next){
 
   req.pipe(req.busboy);
   req.busboy.on('file', function(fieldname, file, filename) {
+    // not all file systems are friendly to names with spaces in them. 
+    // if this name has spaces in it, replace them with an underscore. 
       var fileName = filename.replace(/ /g,"_");
       var newFile = path.join(path.dirname(require.main.filename),'images',fileName);
       var fd = fs.openSync(newFile, 'w');
       var fstream = fs.createWriteStream(newFile, {fd: fd});
       file.pipe(fstream);
+      // now that we have the image stored on the server, send it to watson
       fstream.on('close', function () {
         var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
         var visual_recognition = watson.visual_recognition({
@@ -51,29 +70,45 @@ exports.classify= function(req, res){
           version: 'v3', version_date: '2016-05-20'
         });
         visual_recognition.classify(params, function(err, classify_results) {
+          // if there is an error, log it. 
+          // this should be extended to include a res.send() so the browser does not repeat the request
+          // which it will do on requests with no response
           if (err) {console.log(err);}
           else
+          // the request was successful, send the results back to the browser
           {   res.send(classify_results); }
         });
       } );
     });
   }
 
-exports.find= function(req, res){
+/**
+ * find looks in a collection of images to find those images which most closely match the provided image
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * req.body.collection - the id of the collection to use
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
+exports.find= function(req, res, next){
+  // get rid of blanks in the file name
     var imageName = req.body.image.replace(/ /g,"_");
     var newFile = path.join(path.dirname(require.main.filename),'images',imageName);
+    // save the collection name
     var collectionName = req.body.collection;
+    // read in the (previously transferred) file name
     var params = {image_file: fs.createReadStream(newFile), collection_id: collectionName };
+    // set the visual_recognition parameters
     var visual_recognition = watson.visual_recognition({
       api_key: apiKey,
       version: 'v3', version_date: '2016-05-20'
     });
+    // request similar images
     visual_recognition.findSimilar(params, function(err, similar_results) {
+      // on error, log the erro
       if (err) {console.log(err);}
       else
+      // send the results back to the browser
       {res.send(similar_results);}
     });
   }
-
-  function displayObjectValues (_string, _object)
-  { for (prop in _object){ console.log(_string+prop+": "+(((typeof(_object[prop]) == 'object') || (typeof(_object[prop]) == 'function'))  ? typeof(_object[prop]) : _object[prop]));} }

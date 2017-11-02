@@ -20,6 +20,7 @@
 function initPage ()
 {
   var _mic = $('#microphone'); var _stop = $("#stop");
+  // add a variable for the displayNLC button
   var readText = $("#readText"); var displayNLC = $("#classifySpeech");
   var stt_out = $("#speech");
     _mic.addClass("mic_enabled");
@@ -83,9 +84,14 @@ function initPage ()
     return true;
   });
 
+  // do something useful when the displayNLC button is clicked
     displayNLC.on("click",  function()
     {
+      // specify the html page to load for the classification results
       var nlcPage = "displayNLC.html";
+      // execute the checkNLC function in the Z2C-NLC.js file, sending it
+      // the page to load and the html element with the output from the 
+      // speech to text process
       checkNLC(nlcPage, stt_out);
     });
 }

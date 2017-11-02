@@ -27,9 +27,15 @@ var discovery = new DiscoveryV1({
   version_date: config.watson_discovery.credentials.version_date
 });
 
-// getID returns a json object with all environments, configurations and collections
-// in the Discovery News version, since we are not creating any of the above, there
-// will be one environment, one configuration and one collection returned.
+/**
+ * getID returns a json object with all environments, configurations and collections
+ * in the Discovery News version, since we are not creating any of the above, there
+ * will be one environment, one configuration and one collection returned.
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
 exports.getID = function(req, res, next)
 {
     var method = "getID";
@@ -46,9 +52,20 @@ exports.getID = function(req, res, next)
         }
       });
 }
-// getNews returns a json object with all environments, configurations and collections
-// in the Discovery News version, since we are not creating any of the above, there
-// will be one environment, one configuration and one collection returned.
+
+/**
+ * getNews returns a json object with all environments, configurations and collections
+ * in the Discovery News version, since we are not creating any of the above, there
+ * will be one environment, one configuration and one collection returned.get the value of a specific cookie
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * req.body.startDate - when to start looking for documents
+ * req.body.endDate - when to stop looking
+ * req.body.count - number of documents to return
+ * req.body.query - comma delimited string of query words and phrases
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
 exports.getNews = function(req, res, next)
 {
     var method = "getNews";
