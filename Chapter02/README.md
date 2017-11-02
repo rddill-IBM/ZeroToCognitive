@@ -12,7 +12,7 @@ In this chapter, we will do the following things:
 
 We are using the publicly available IBM Cloud, which at this writing has instances located in North America, Germany, Australia and the UK.
 The link for IBM Cloud, or Bluemix as it was formerly known, is http://console.bluemix.net, this URL will bring you to this page: 
-![IBM Cloud Signup](assets/IBM_Cloud_signup.png)
+![IBM Cloud Signup](../assets/IBM_Cloud_signup.png)
 
 At this point, you can either sign up for IBM Cloud, or log in. If you already have an id on IBM Cloud, then you can go 
 to one of the following regional links: 
@@ -44,7 +44,7 @@ for your operating system.
 
 ## Get the Zero To Cognitive Repository
 
-![Fork](/assets/Fork.jpg)
+![Fork](../assets/Fork.jpg)
 The Zero to Cognitive repository, which you're reading right now, is on public github. I encourage you to use the fork process to 
 create your own personal version of this repository. That way you can make updates to your own code and share your code with others. 
 This repository will not accept updates. 
