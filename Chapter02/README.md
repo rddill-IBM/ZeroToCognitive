@@ -67,13 +67,13 @@ If you have already created a folder to hold your github clones, then just navig
 then I recommend you do so. For example, on my system, I have a folder called github, located inside the Documents folder on 
 my Linux and OSX systems and inside MyDocuments on Windows. 
  - navigate to your github folder from within your terminal window or git bash shell
-   - e.g. cd ~/Documents/github
+   - e.g. ```cd ~/Documents/github```
  - type in git clone and then paste after the word 'clone ' the information which you copied from the clone button in your
  web browser. After 30 seconds or so, this entire repository will now be on your workstation. 
 
 ## Install and configure the Cloud Foundry Command Line Interface (CLI)
  - navigate to the newly cloned ZeroToCognitive folder on your system and type in:
-   - cf target -o ‘your org name’ -s ‘your space name’
+   - ```cf target -o ‘your org name’ -s ‘your space name’```
 where you replace the quoted items above with your information, without quotes
 
 **Congratulations** You have successfully set your workstation up to work with IBM Cloud and have a great tutorial loaded onto your computer.
