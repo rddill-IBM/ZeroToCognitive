@@ -12,7 +12,7 @@ In this chapter, we will do the following things:
 
 We are using the publicly available IBM Cloud, which at this writing has instances located in North America, Germany, Australia and the UK.
 The link for IBM Cloud, or Bluemix as it was formerly known, is http://console.bluemix.net, this URL will bring you to this page: 
-![ScreenShot](https://raw.githubusercontent.com/rddill-IBM/ZeroToCognitive/master/Chapter02/Documentation/screenshots/Fork.png)
+![ScreenShot](./Documentation/screenshots/IBM_Cloud_signup.png)
 
 At this point, you can either sign up for IBM Cloud, or log in. If you already have an id on IBM Cloud, then you can go 
 to one of the following regional links: 
@@ -49,7 +49,7 @@ This repository will not accept updates.
 ### Fork the master Repository
 To fork the repository, go to this [link](https://github.com/rddill-IBM/ZeroToCognitive).
 When you do that, you will see a page that looks similar to the following: 
-![ScreenShot](./Documents/screenshots/fork.png)
+![ScreenShot](./Documents/screenshots/fork.jpg)
 Please note that on the bottom left, the word 'master' is showing on the branch button. You definitely want that! Also, you can see that 
 the fork button is circled on the top right corner. Click that button. When you do so, it will either automatically create a copy of 
 this repository in your git space, or it will ask you where to put it if you have multiple git spaces or organizations 
