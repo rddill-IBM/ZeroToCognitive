@@ -50,7 +50,7 @@ function initPage ()
   _stop.on("click",  function()
   {
     console.log("Stopping speech-to-text service...");
-    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
     _mic.addClass("mic_enabled");
     _mic.removeClass("mic_disabled");
     _stop.addClass("mic_disabled");
@@ -60,7 +60,7 @@ function initPage ()
   readText.on("click",  function()
   {
     console.log("initiating text-to-speech service...");
-    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
     _mic.addClass("mic_enabled");
     _mic.removeClass("mic_disabled");
     _stop.addClass("mic_disabled");

@@ -74,7 +74,7 @@ function initPage ()
     // last test made. So, is the stream undefined? If not, is it defined, but null.
     // in either case, we have no stream to stop.
     // The exclamation point at the beginning is a NOT symbol 
-    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
     // just as in the mic.on.click processing, it would be useful to also check 
     // to see if the stop button is enabled, which would make this code more robust. 
     //

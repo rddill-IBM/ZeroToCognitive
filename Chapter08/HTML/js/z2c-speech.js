@@ -72,7 +72,7 @@ function toggle_mic(_microphone, _stopbutton, b_on)
     _stopbutton.removeClass("mic_disabled");
   } else // stop button clicked, enable microphone button
   {
-    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
     _microphone.addClass("mic_enabled");
     _microphone.removeClass("mic_disabled");
     _stopbutton.addClass("mic_disabled");
