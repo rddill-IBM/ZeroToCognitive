@@ -17,7 +17,6 @@ var express = require('express');
 var router = express.Router();
 var speech_to_text = require('./features/speech_to_text');
 var auth = require('./features/authenticate');
-var multi_lingual = require('./features/multi_lingual');
 var discovery = require('./features/discovery');
 var format = require('date-format');
 
@@ -36,11 +35,6 @@ router.get('/api/text-to-speech/synthesize*',speech_to_text.tts_synthesize);
 router.post('/auth/authenticate*', auth.authenticate);
 router.post('/auth/register*', auth.register);
 router.post('/auth/logout*', auth.logout);
-
-
-router.get('/api/getSupportedLanguages*',multi_lingual.languages);
-router.get('/api/getTextLocations*',multi_lingual.locations);
-router.post('/api/selectedPrompts*',multi_lingual.prompts);
 
 router.get('/discovery/getID*',discovery.getID);
 router.post('/discovery/getNews*',discovery.getNews);

@@ -42,13 +42,11 @@ exports.getID = function(req, res, next)
     discovery.getEnvironments({}, function(error, data) {
         if (error)
         {
-            console.log(method+" failed: "+error);
-            res.send({"results": "failed", "data": error});
+
         }
         else
         {
-            console.log(method+" success! "+JSON.stringify(data, null, 2));
-            res.send({"results": "success", "data": JSON.stringify(data, null, 2)});
+
         }
       });
 }
@@ -74,23 +72,19 @@ exports.getNews = function(req, res, next)
     var _time = 'T12:00:00-0400';
     // The browser sends in 4 values as part of the post command, each of which is delivered to nodesjs as
     // part of req.body. 
-    var start_date = req.body.startDate+'T12:00:00-0400';
-    var end_date = req.body.endDate+'T12:00:00-0400';
-    var qry_count = req.body.count;
+
     // the Discovery API wants to receive a single JSON object as the passed in parameter. 
     // That JSON object has 7 elements in it, each of which is populated below. 
     var _query = {};
-    var qry = '';
+    var qry;
     // Discovery allows you to query on multiple terms, just as did Alchemy. However with 
     // Discovery, the terms are separated by a 'pipe' character: | to mean 'or'. The following
     // for/each loop creates the query object.
-    __qry__ = req.body.query.split(',');
-    console.log(__qry__);
-    for (each in __qry__){(function(_idx, _arr){qry += ((_idx == 0) ? ' "'+_arr[_idx]+'" ' : '|'+' "'+_arr[_idx]+'" ');})(each, __qry__);}
-    _query.query = qry;
-    _query.filter = 'language:(english|en),crawl_date>'+start_date+',crawl_date<'+end_date;
+
+    _query.query = '"'+qry+'"';
+
     _query.aggregation = '[nested(enriched_title.entities).filter(enriched_title.entities.type:Company).term(enriched_title.entities.text)]';
-    _query.count = parseInt(qry_count);
+
     _query.return = 'title,url,host,crawl_date, text, enriched_text.sentiment.document, author';
     _query.environment_id = 'system';
     _query.collection_id = 'news';
@@ -99,21 +93,13 @@ exports.getNews = function(req, res, next)
       var method = "query";
       if (error)
       { // log the error and send an error message back to the browser
-        console.log(method+" failed: "+error); 
-        res.send({"results":"failed", "data": error});
-        }
+
+    }
       else
       { // the following for each loop is purely for diagnostic purposes and is commented
         // out. If you uncomment this section, you will see data sent to your console. 
-        /*
-        for (each in data.results)
-          {console.log('data.results['+each+'].title is: '+data.results[each].title);
-          if (each == 0) {console.log(method+" success! "+JSON.stringify(data, null, 2))}
-        }
-        */
-        // log the results on the console and send them back to the browser. 
-         res.send({"results":"success", "data": data});
-        }
+
+    }
     });
   
 }
