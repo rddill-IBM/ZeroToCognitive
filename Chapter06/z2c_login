@@ -1,0 +1,25 @@
+#!/bin/bash
+
+pub_URL="https://api.ng.bluemix.net"
+gb_URL="https://api.eu-gb.bluemix.net"
+de_URL="https://api.eu-de.bluemix.net"
+au_URL="https://api.au-syd.bluemix.net"
+targetURL=""
+shopt -s nocasematch
+if [[ $2 == "americas" ]]
+then targetURL=$pub_URL
+elif [[ $2 == "uk" ]]
+then targetURL=$gb_URL
+elif [[ $2 == "europe" ]]
+then targetURL=$de_URL
+elif [[ $2 == "australia" ]]
+then targetURL=$au_URL
+else
+  echo "Parameter 2 is required to be one of the following public designations:"
+  echo "North America: 'americas', Great Britain(UK): 'uk', Europe: 'europe', Australia: 'australia'"
+  echo "Please reissue the command as 'z2c_login {your_login_id} {dedicated || public || gb || germany || sydney}'"
+  exit -1
+fi
+echo "logging $1 in to IBM $2 Bluemix "
+
+cf login -a "$targetURL" -u "$1"

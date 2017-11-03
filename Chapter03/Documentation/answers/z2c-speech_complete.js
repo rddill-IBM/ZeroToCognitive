@@ -66,16 +66,21 @@ function initPage ()
       });
 
   _stop.on("click",  function() {
-          console.log("Stopping text-to-speech service...");
-          // the if statement is here in case the stop button was clicked either before the stream 
-          // was successfully created, or if there was an error in the creation process. 
-          if (stream != undefined) {stream.stop(); }
-          // just as in the mic.on.click processing, it would be useful to also check 
-          // to see if the stop button is enabled, which would make this code more robust. 
-          //
-          _mic.addClass("mic_enabled");
-          _mic.removeClass("mic_disabled");
-          _stop.addClass("mic_disabled");
-          _stop.removeClass("mic_enabled");
-        });
+    console.log("Stopping text-to-speech service...");
+    // the if statement is here in case the stop button was clicked either before the stream 
+    // was successfully created, or if there was an error in the creation process. 
+    // there are two things we need to test for, first, has stream even been defined?
+    // we test for that first because the first test to pass, in an OR situation is the 
+    // last test made. So, is the stream undefined? If not, is it defined, but null.
+    // in either case, we have no stream to stop.
+    // The exclamation point at the beginning is a NOT symbol 
+    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
+    // just as in the mic.on.click processing, it would be useful to also check 
+    // to see if the stop button is enabled, which would make this code more robust. 
+    //
+    _mic.addClass("mic_enabled");
+    _mic.removeClass("mic_disabled");
+    _stop.addClass("mic_disabled");
+    _stop.removeClass("mic_enabled");
+  });
 }

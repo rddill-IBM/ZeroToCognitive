@@ -49,7 +49,7 @@ function initPage ()
   _stop.on("click",  function()
   {
     console.log("Stopping speech-to-text service...");
-    if (stream != undefined) {stream.stop(); }
+    if (!(typeof(stream) == "undefined") || (stream == null)) {stream.stop(); }
     _mic.addClass("mic_enabled");
     _mic.removeClass("mic_disabled");
     _stop.addClass("mic_disabled");
