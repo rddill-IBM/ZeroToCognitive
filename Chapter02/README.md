@@ -44,14 +44,13 @@ for your operating system.
 
 ## Get the Zero To Cognitive Repository
 
-![Fork](../assets/Fork.jpg)
 The Zero to Cognitive repository, which you're reading right now, is on public github. I encourage you to use the fork process to 
 create your own personal version of this repository. That way you can make updates to your own code and share your code with others. 
 This repository will not accept updates. 
 ### Fork the master Repository
 To fork the repository, go to this [link](https://github.com/rddill-IBM/ZeroToCognitive).
 When you do that, you will see a page that looks similar to the following: 
-![ScreenShot](assets/Fork.jpg)
+![Fork](../assets/Fork.png)
 Please note that on the bottom left, the word 'master' is showing on the branch button. You definitely want that! Also, you can see that 
 the fork button is circled on the top right corner. Click that button. When you do so, it will either automatically create a copy of 
 this repository in your git space, or it will ask you where to put it if you have multiple git spaces or organizations 
