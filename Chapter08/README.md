@@ -1,6 +1,6 @@
 #Chapter 8: Watson Discovery
 
-[Return to Table of Contents](../README.md)
+[Return to Table of Contents](../README.pdf)
 
 This is an update to the previous Chapter 8, where we used Alchemy. This will require that you activate the Watson Discovery service in Bluemix, replacing the Alchemy service if you had it. Much of this chapter is unchanged. There is a structural change to the application and changes in four files, described below. 
 ## Structural change

@@ -1,6 +1,6 @@
 # Chapter 2: Setting up your workstation for IBM Cloud (bluemix)
 
-[Return to Table of Contents](../README.md)
+[Return to Table of Contents](../README.pdf)
 
 In this chapter, we will do the following things: 
  - Create your IBM Cloud account
