@@ -12,39 +12,39 @@ The chapter structure is:
 
 3). Building your first Watson App  
 
-    - demo: [https://z2c-c03.mybluemix.net/](https://z2c-c03.mybluemix.net/)
+demo: [https://z2c-c03.mybluemix.net/](https://z2c-c03.mybluemix.net/)
 
 4). [Getting Watson to talk back](./Chapter04/README.pdf)  
 
-    - demo: [https://z2c-c04.mybluemix.net/](https://z2c-c04.mybluemix.net/)
+demo: [https://z2c-c04.mybluemix.net/](https://z2c-c04.mybluemix.net/)
 
 5). [Understanding Classifiers](./Chapter05/README.pdf)
 
-    - demo: [https://z2c-c05.mybluemix.net/](https://z2c-c05.mybluemix.net/)
+demo: [https://z2c-c05.mybluemix.net/](https://z2c-c05.mybluemix.net/)
 
 6). [Creating a custom dialog with Watson](./Chapter06/README.pdf)
 
-    - demo: [https://z2c-c06.mybluemix.net/](https://z2c-c06.mybluemix.net/)
+demo: [https://z2c-c06.mybluemix.net/](https://z2c-c06.mybluemix.net/)
 
 7). SSL, https: sessions and users				    (set up security, use cloudant for sessionStore, manage user profiles)  
 
-     - demo: [https://z2c-c07.mybluemix.net/](https://z2c-c07.mybluemix.net/)
+demo: [https://z2c-c07.mybluemix.net/](https://z2c-c07.mybluemix.net/)
 
 8). [Understanding the Watson Discovery News APIs](./Chapter08/README.pdf)
 
-    - demo: [https://z2c-c08.mybluemix.net/](https://z2c-c08.mybluemix.net/)
+demo: [https://z2c-c08.mybluemix.net/](https://z2c-c08.mybluemix.net/)
 
 9). Visual Recognition [updated directions are in the Chapter09 Readme.pdf](./Chapter09/readme.MD)
 
-    - demo: [https://z2c-c09.mybluemix.net/](https://z2c-c09.mybluemix.net/)
+demo: [https://z2c-c09.mybluemix.net/](https://z2c-c09.mybluemix.net/)
 
 10). Watson Conversations
 
-    - demo: [https://z2c-c10.mybluemix.net/](https://z2c-c10.mybluemix.net/)
+demo: [https://z2c-c10.mybluemix.net/](https://z2c-c10.mybluemix.net/)
 
 11). [Finding Answers](./Chapter11/README.pdf)
 
-    - demo: [https://z2c-c11.mybluemix.net/](https://z2c-c11.mybluemix.net/)
+demo: [https://z2c-c11.mybluemix.net/](https://z2c-c11.mybluemix.net/)
 
 12). How do I get started on my client app?		Design Thinking, Stories, Architecture, Keeping it simple 
 
