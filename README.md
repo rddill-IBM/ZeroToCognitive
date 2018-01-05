@@ -28,7 +28,7 @@ The chapter structure is:
 8). [Understanding the Watson Discovery News APIs](./Chapter08/README.pdf)
     - demo: [https://z2c-c08.mybluemix.net/](https://z2c-c08.mybluemix.net/)
 
-9). Visual Recognition [updated directions are in the Chapter09 Readme.pdf](./Chapter09/readme.md)
+9). Visual Recognition [updated directions are in the Chapter09 Readme.pdf](./Chapter09/readme.MD)
     - demo: [https://z2c-c09.mybluemix.net/](https://z2c-c09.mybluemix.net/)
 
 10). Watson Conversations
