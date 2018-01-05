@@ -15,31 +15,6 @@
  */
 // z2c-images.js
 var b_Droppable, _url, _image, droppedFiles, $form, c_res ;
-// in this app, collections and locations are matched JSON objects. The logic, in retrospect, would be simpler if these were 
-// combined into a single json object. If you want to do that, a structure that would be more effective would be:
-// {"<collection_name>": {"id": "<image_id>", "path": "<path>"}, "<collection_name2>": {"id": "<image_id>", "path": "<path>"}, etc}
-// for example, using the first two image sets below: 
-//  {"water": {"id": "water_8fe4c6", "path": "/images/Landscape/Water/"},"collage": {"id": "collage_fe9bf8", "path": "/images/Collage/"}}
-var collections = {
-  "water": "water_8fe4c6",
-  "collage": "collage_fe9bf8",
-  "still": "still_36b472",
-  "forest": "forest_2c108f",
-  "abstract": "abstract_626032",
-  "beach": null,
-  "building": null,
-  "garden": null
-};
-var locations = {
-  "water": "/images/Landscape/Water/",
-  "collage": "/images/Collage/",
-  "still": "/images/Still/",
-  "forest": "\\images\\Landscape\\Forest\\",
-  "abstract": "\\images\\Abstract\\",
-  "beach": "\\images\\Landscape\\Beach\\",
-  "building": "\\images\\Landscape\\Building\\",
-  "garden": "\\images\\Landscape\\Garden\\"
-};
 
 // visual recognition has an image limit of 2Mb
 var maxSize = 2097152;
@@ -152,68 +127,27 @@ function displayImageClassificationResults(_target, _data)
   console.log("displayImageClassificationResults entered with: "+_data);
   // turn the returned string back into a JSON object
   var imageResults = JSON.parse(_data);
+  console.log("displayImageClassificationResults parsed results: ",imageResults);
+
   // create a display table
   var _tbl = "<table width=90%><tr><th>Image Class</th><th>Probability</th><tr>";
 
   var _image = imageResults.images[0].image;
   // iterate through the classification results, displaying one table row for each result row
-  for (each in imageResults.images[0].classifiers[0].classes)
-    { (function (_idx, _obj) {
-      var _disabled = (collections[_obj[_idx].class] == null) ? ", mic_disabled" : "";
-    _tbl += '<tr><td class="col-md-6'+_disabled+'"><a onclick="findInCollection(\''+_image+'\',\''+_obj[_idx].class+'\')" class="btn btn-primary, showfocus">'+_obj[_idx].class+'</a></td><td>'+_obj[_idx].score+'</td></tr>"';
-  })(each, imageResults.images[0].classifiers[0].classes)
+  if (imageResults.images[0].classifiers.length === 0)
+  { _tbl += "<tr><td>No Results with higher than 50% probability</td></tr>"}
+  else
+  {
+    for (each in imageResults.images[0].classifiers[0].classes)
+    {
+      (function (_idx, _obj) {
+      _tbl += '<tr class="showFocus"><td class="col-md-6"><b>'+_obj[_idx].class+'</b></td><td>'+_obj[_idx].score+'</td></tr>';
+      })(each, imageResults.images[0].classifiers[0].classes)
     }
+  }
     // close the table
     _tbl += "</table>";
     // and append it to the target.
+    console.log(_tbl);
     _target.append(_tbl);
-}
-
-/**
- * find an image within an image collection
- * @param {String} image - the image to search for in the provided set
- * @param {String} collection - the name of the collection to search
- */
-function findInCollection(image, collection)
-{
-  // empty the target and display an animated gif
-  c_res.empty(); c_res.append("<center><img src='icons/loading.gif' /></center>");
-  // if the collection is not available, update the page with an appropriate message
-  if(collections[collection] == null) {c_res.append("<p>I'm sorry, but the "+collection+" is not yet available.")}
-  console.log("requesting search for image "+image+" in collection: "+collection);
-  // set the post options
-  var options = {};
-  options.image = image; options.collection = collections[collection];
-  // find a similar image
-  $.when($.post('/images/find', options)).done(function(res){
-    console.log(res);
-    // display the find results
-      displayCollectionResults(collection, res);
-    });
-
-}
-/**
- * set the document cookies to update the previous and next steps
- * @param {String} type - the classified type of image
- * @param {String} _collection - the result set from the find similar process
- */
-function displayCollectionResults(type, _collection)
-{
-  // empty the html target
-  c_res.empty();
-  var found = _collection;
-  // get the name of the source file
-  var sourceName = found.image_file;
-  // create a display table
-  var tableOut = "<table width='95%'><tr><th>Image Name</th><th>Image</th><th>Confidence</th><tr>";
-  // iterate through the found images, displaying each one with it's name, a picture and the confidence level
-  for (each in found.similar_images)
-  {(function(_idx, _obj){
-    tableOut += "<tr><td>"+_obj[_idx].image_file+"</td><td><center><img class='showfocus' src='"+locations[type]+_obj[_idx].image_file+"', height=200 /></center></td><td>"+_obj[_idx].score+"</td></tr>";
-  })(each, found.similar_images);}
-  // close the table
-  tableOut += "</table>";
-  // and display it
-  c_res.append(tableOut);
-
 }

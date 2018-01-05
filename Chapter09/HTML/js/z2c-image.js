@@ -15,26 +15,6 @@
  */
 // z2c-alchemy.js
 var b_Droppable, _url, _image, droppedFiles, $form, c_res ;
-var collections = {
-  "water": "water_8fe4c6",
-  "collage": "collage_fe9bf8",
-  "still": "still_36b472",
-  "forest": "forest_2c108f",
-  "abstract": "abstract_626032",
-  "beach": null,
-  "building": null,
-  "garden": null
-};
-var locations = {
-  "water": "/images/Landscape/Water/",
-  "collage": "/images/Collage/",
-  "still": "/images/Still/",
-  "forest": "/images/Landscape/Forest/",
-  "abstract": "/images/Abstract/",
-  "beach": "/images/Landscape/Beach/",
-  "building": "/images/Landscape/Building/",
-  "garden": "/images/Landscape/Garden/"
-};
 
 var maxSize = 2097152;
 
@@ -54,16 +34,5 @@ function initiateVR()
 function displayImageClassificationResults(_target, _data)
 {
   _target.empty();
-
-}
-
-function findInCollection(image, collection)
-{
-  c_res.empty(); c_res.append("<center><img src='icons/loading.gif' /></center>");
-
-}
-function displayCollectionResults(type, _collection)
-{
-  c_res.empty(); c_res.append("<center><img src='icons/loading.gif' /></center>");
 
 }

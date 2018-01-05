@@ -19,7 +19,7 @@ var busboy = require('connect-busboy');
 var watson = require('watson-developer-cloud');
 var request = require('request');
 var apiKey = require("../../env.json").visual_recognition.api_key;
-var vr_classifier = require("../../env.json").vr_classifier_id;
+var vr_classifier = require("../../env.json").visual_recognition.classifier_id;
 
 
 /**
