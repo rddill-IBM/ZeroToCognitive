@@ -19,12 +19,12 @@ var vcapServices = require('vcap_services');
 var config = require('../../env.json');
 
 var DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
-console.log(config.watson_discovery);
+console.log(config.discovery);
 var discovery = new DiscoveryV1({
-  username: config.watson_discovery.credentials.username,
-  password: config.watson_discovery.credentials.password,
-  version: config.watson_discovery.credentials.version,
-  version_date: config.watson_discovery.credentials.version_date
+  username: config.discovery.username,
+  password: config.discovery.password,
+  version: config.discovery.version,
+  version_date: config.discovery.version_date
 });
 
 /**

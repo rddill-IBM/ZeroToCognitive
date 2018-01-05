@@ -20,7 +20,6 @@ function initiateAlchemy()
   var _btn = $("#getNews"); var _co = $("#company");
   $("#days").val(5); $("#count").val(5);
   console.log("initiateAlchemy");
-  updatePage('news')
   _btn.on("click",  function() {
     // get selector value
     var _feed = $("#newsfeed");
