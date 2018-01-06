@@ -17,14 +17,12 @@ In this updated version, we are removing the direct call from the browser and us
 
  Because we're using Discovery, rather than Alchemy, we'll add Discovery to our env.json file: 
  ```JSON
-         "watson_discovery": {
-          "credentials": {
+         "discovery": {
             "version": "v1",
             "version_date": "2017-10-16",
             "url": "https://gateway.watsonplatform.net/discovery/api",
             "password": "<Your password here>",
             "username": "<your username here>"
-          }
         },
 ```
  - **controller/router.js**
