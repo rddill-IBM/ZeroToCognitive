@@ -234,3 +234,56 @@ There are only three routines we create for the browser:
         })(each, tmpArr);
         }
 ```
+
+#50 Sample Queries
+
+ - What financial benefits do industry leaders get from cloud and AI
+ - what kinds of technologies or solutions are top industry performers running in the cloud
+ - what does it mean to be a high-performing cloud organization
+ - what's the relationship between cloud and cognitive
+ - how will these emergent technologies affect a Media company business model
+ - what should I do as a media company to leverage cognitive
+ - can you give me an example of how cognitive technology has been used by media industry
+ - who are the disrupters most affecting Media industry
+ - how does consumer device selection affect media companies
+ - What are the key drivers for change in Media industry
+ - can you give me a roadmap to cognitive?
+ - Can you give me examples of businesses using cognitive computing
+ - How can I determine my readiness to gain value from cognitive computing
+ - Is there a business case for cognitive computing
+ - What's the business case for cognitive computing
+ - how can cognitive computing influence sales
+ - How can cognitive computing influence marketing
+ - Is there any difference in how Gen Z engages between growth markets and mature markets
+ - What do companies need to do to influence Gen Z
+ - what distinguishes a Gen Z from others
+ - What do Gen Z expect from industry and government
+ - How can a non-profit get started with AI or Cognitive technologies
+ - How can non-profit demonstrate greater value to their investors
+ - What can government do to increase high-demand skills
+ - who's responsible for skill development
+ - What skills are government organizations trying to hire
+ - what are some of the key challenges faced by governments today?
+ - Is there a measurable difference in AI usage between market leaders and market followers
+ - how are different industries leveraging image processing and AI
+ - how is machine learning affecting supply chain logistics
+ - What technologies are influencing supply chains
+ - how important is iot to supply chain
+ - what defines the ability of a company to gain access to consumer information
+ - how can insurance increase their access to customer information
+ - how are banks getting started with Blockchain
+ - how are fintechs using blockchain
+ - how are financial institutions using blockchain
+ - Do non-profits use AI
+ - How do I target Gen Z?
+ - How is Gen Z different?
+ - How do I leverage AI
+ - how is cognitive computing relevant to government
+ - How is cognitive computing relevant to non-profits
+ - what are the top banking trends
+ - what are the top automotive industry trends
+ - What are the top retail industry trends
+ - can you show me how visual recognition solves business problems
+ - how do I use data science
+ - how is Cloud driving business transformation
+ - how is AI driving business transformation
