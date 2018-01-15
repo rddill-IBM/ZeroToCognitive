@@ -10,16 +10,16 @@
 }
 .scrollingPaneLeft{
 	position: fixed;
-	height: 70%;
+	height: 85%;
 	margin-left: 1%;
-	width: 45%;
+	width: 48%;
 	overflow: scroll;
 }
 .scrollingPaneRight{
 	position: fixed;
-	height: 70%;
-	margin-left: 50%;
-	width: 45%;
+	height: 85%;
+	margin-left: 49%;
+	width: 49%;
 	overflow: scroll;
 }
 .bottom-hold{
@@ -71,7 +71,9 @@
 	border-radius: 1em;
 }
 
-
+.wide {
+	width: 100%;
+}
 .showfocus:hover, .acc_header:hover, .acc_body:hover{
 	-webkit-box-shadow: 0px 0px 1em .4em  rgba(81, 203, 238, 1);
 	-moz-box-shadow: 0px 0px 1em .4em  rgba(81, 203, 238, 1);

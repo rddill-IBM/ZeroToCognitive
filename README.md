@@ -2,51 +2,54 @@
 
 This is the tutorial site for the Zero to Cognitive Series. Each chapter in the Tutorial is a completely self contained folder. 
 
-We are currently at release 1.2, which includes updates to Chapter 8 (Watson Discover News) and Chapter 9 (Visual Recognition). Release notes are here: [https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.2](https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.2)
-The chapter structure is:    
+We are currently at release 1.3, which includes updates to Chapter 8 (Watson Discover News), Chapter 9 (Visual Recognition) and Chapter 11 (Watson Discovery). Release notes are here: [https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3](https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3) 
+
+***Please note that the videos for Chapters 8, 9 and 11 are currently incorrect. Please use the ReadME files in those chapters for explanations of the new code.***
+
+##The chapter structure is:    
 
 
-1). The Story, Architecture for this app
+###1). The Story, Architecture for this app
 
-2). [Setting up Bluemix](./Chapter02/README.pdf)
+###2). [Setting up Bluemix](./Chapter02/README.pdf)
 
-3). Building your first Watson App  
+###3). Building your first Watson App  
 
-demo: [https://z2c-c03.mybluemix.net/](https://z2c-c03.mybluemix.net/)
+- demo: [https://z2c-c03.mybluemix.net/](https://z2c-c03.mybluemix.net/)
 
-4). [Getting Watson to talk back](./Chapter04/README.pdf)  
+###4). [Getting Watson to talk back](./Chapter04/README.pdf)  
 
-demo: [https://z2c-c04.mybluemix.net/](https://z2c-c04.mybluemix.net/)
+- demo: [https://z2c-c04.mybluemix.net/](https://z2c-c04.mybluemix.net/)
 
-5). [Understanding Classifiers](./Chapter05/README.pdf)
+###5). [Understanding Classifiers](./Chapter05/README.pdf)
 
-demo: [https://z2c-c05.mybluemix.net/](https://z2c-c05.mybluemix.net/)
+- demo: [https://z2c-c05.mybluemix.net/](https://z2c-c05.mybluemix.net/)
 
-6). [Creating a custom dialog with Watson](./Chapter06/README.pdf)
+###6). [Creating a custom dialog with Watson](./Chapter06/README.pdf)
 
-demo: [https://z2c-c06.mybluemix.net/](https://z2c-c06.mybluemix.net/)
+- demo: [https://z2c-c06.mybluemix.net/](https://z2c-c06.mybluemix.net/)
 
-7). SSL, https: sessions and users				    (set up security, use cloudant for sessionStore, manage user profiles)  
+###7). SSL, https: sessions and users				    (set up security, use cloudant for sessionStore, manage user profiles)  
 
-demo: [https://z2c-c07.mybluemix.net/](https://z2c-c07.mybluemix.net/)
+- demo: [https://z2c-c07.mybluemix.net/](https://z2c-c07.mybluemix.net/)
 
-8). [Understanding the Watson Discovery News APIs](./Chapter08/README.pdf)
+###8). [Understanding the Watson Discovery News APIs](./Chapter08/README.pdf)
 
-demo: [https://z2c-c08.mybluemix.net/](https://z2c-c08.mybluemix.net/)
+- demo: [https://z2c-c08.mybluemix.net/](https://z2c-c08.mybluemix.net/)
 
-9). Visual Recognition [updated directions are in the Chapter09 Readme.pdf](./Chapter09/readme.MD)
+###9). Visual Recognition [updated directions are in the Chapter09 Readme.pdf](./Chapter09/readme.MD)
 
-demo: [https://z2c-c09.mybluemix.net/](https://z2c-c09.mybluemix.net/)
+- demo: [https://z2c-c09.mybluemix.net/](https://z2c-c09.mybluemix.net/)
 
-10). Watson Conversations
+###10). Watson Conversations
 
-demo: [https://z2c-c10.mybluemix.net/](https://z2c-c10.mybluemix.net/)
+- demo: [https://z2c-c10.mybluemix.net/](https://z2c-c10.mybluemix.net/)
 
-11). [Finding Answers](./Chapter11/README.pdf)
+###11). [Finding Answers with Watson Discovery](./Chapter11/README.pdf) 
 
-demo: [https://z2c-c11.mybluemix.net/](https://z2c-c11.mybluemix.net/)
+- demo: [https://z2c-c11.mybluemix.net/](https://z2c-c11.mybluemix.net/)
 
-12). How do I get started on my client app?		Design Thinking, Stories, Architecture, Keeping it simple 
+###12). How do I get started on my client app?		Design Thinking, Stories, Architecture, Keeping it simple 
 
 If you are using IBM Public Bluemix for this tutorial series, IBM is introducing a significant change on January 2nd, moving from DEA (Droplet Execution Environment) to Diego. The tutorial will run without change in this new environment. There are two things you need to understand with this change:
 

@@ -1,0 +1,60 @@
+
+<div><h2 id="title">Chapter 11: Watson Discovery</h2>
+    <div class="showfocus scrollingPaneLeft">
+        <h3>Environment</h3>
+        <table  width="98%"><tr><th width="45%">Command</th><th>Parameters</th></tr>
+            <tr ><td onclick="listEnvironments()" class="showfocus">List Environments</td><td>(uid, pw from env.json)</td></tr>
+            <tr ><td onclick="getEnvironmentDetails()" class="showfocus">List Environment Details</td><td>Environment id: <select id="env_id" width="25%"></select></td></tr>
+            <tr ><td onclick="createEnvironment()" class="showfocus">Create Environment</td><td>Name: <input type="text" id="env_name"></input><br/>Description:<input type="textbox" id="env_desc"></input></td></tr>
+        </table>
+        <h3>Configuration</h3>
+        <table  width="98%"><tr><th width="45%">Command</th><th>Parameters</th></tr>
+            <tr ><td onclick="listConfigurations()" class="showfocus">List Configurations</td><td>Environment id: <select id="env_id2" width="25%"></select></td></tr>
+            <tr ><td onclick="getConfigurationDetails()" class="showfocus">List Configuration Details</td><td>Environment id: <select id="env_id3" width="25%"></select><br/>Configuration id: <select id="conf_id" width="25%"></select></td></tr>
+        </table>
+        <h3 >Collection</h3>
+        <table  width="98%"><tr><th width="45%">Command</th><th>Parameters</th></tr>
+            <tr ><td onclick="listCollections()" class="showfocus">List Collections</td><td>Environment id: <select id="env_id4" width="25%"></select></td></tr>
+            <tr ><td onclick="getCollectionDetails()" class="showfocus">List Collection Details</td><td>Environment id: <select id="env_id5" width="25%"></select><br/>Collection id: <select id="col_id" width="25%"></select></td></tr>
+            <tr ><td onclick="createCollection()" class="showfocus">Create Collection</td><td>Environment id: <select id="env_id6" width="25%"></select><br/>Configuration id: <select id="conf_id2" width="25%"></select>
+                <br/>Language: 
+                <select id="lang_id" width="25%">
+                        <option value="ar">Arabic</option>
+                        <option value="pt-br">Brazilian Portuguese</option>
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                <br/>Name: <input type="text" id="col_name"></input><br/>Description:<input type="textbox" id="col_desc"></input></td></tr>
+                <tr ><td onclick="deleteCollection()" class="showfocus">Delete Collection</td><td>Environment id: <select id="env_id7" width="25%"></select><br/>Collection id: <select id="col_id2" width="25%"></select></td></tr>
+            </table>
+        <h3>Documents</h3>
+        <table  width="98%"><tr><th width="45%">Command</th><th>Parameters</th></tr>
+            <tr><td onclick="getDocumentList()" class="showfocus" >Get Available to Load Document List</td><td></td></tr>
+            <tr><td onclick="addDocument()" class="showfocus" >Add Document to Collection</td>
+                <td>Document: 
+                    <select id="doc_name" width="25%"></select>
+                    <br/>Environment id: <select id="env_id8" width="25%"></select>
+                    <br/>Collection id: <select id="col_id3" width="25%"></select></td></tr>
+            <tr><td onclick="getDocumentDetails()" class="showfocus" >Get Document Details</td>
+                <td>Document: 
+                    <select id="doc_name2" width="25%"></select>
+                    <br/>Environment id: <select id="env_id9" width="25%"></select>
+                    <br/>Collection id: <select id="col_id4" width="25%"></select></td></tr>
+        </table>
+        </table>
+        <h3>Query</h3>
+        <table  width="98%"><tr><th>Command</th><th>Parameters</th></tr>
+        <tr><td onclick="find()" class="showfocus" >Find</td><td>Environment id: <select id="env_id10" width="25%"></select><br/>Collection id: <select id="col_id5" width="25%"></select><br/><input type="text" id="query"></input></td></tr>
+        </table>
+    </div>
+    <div class="scrollingPaneRight">
+      <div class="showfocus" id="discovery_res" ></div>
+      <div id="messages"></div> 
+    </div>
+  </div>
+  

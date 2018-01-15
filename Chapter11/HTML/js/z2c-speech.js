@@ -22,11 +22,7 @@ var _mic; var _stop; var toLoad ="";
 
 function initPage ()
 { document.cookie = "stt-token=";
-
-  toLoad = "conversion.html";
-  $.when($.get(toLoad)).done(function (page)
-    {$("#body").empty(); $("#body").append(page);
-    initiateConversion(); });
+  loadPage('discovery');
 }
 
 function initiateDialog ()

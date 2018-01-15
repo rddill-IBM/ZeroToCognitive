@@ -118,6 +118,8 @@ function detectKey(event, cbfn)
       break;
       case "getMessage" :
       getMessage();
+      case "doQuery" :
+      doQuery();
       break;
     }
   }
@@ -130,11 +132,8 @@ function detectKey(event, cbfn)
 //   html - this is the html page to be loaded.
 //   cbfn - this is the CallBackFunction to be called to initialize the page once loaded.
 var loaderTarget = {
-  conversion: {html: "conversion.html", cbfn: initiateConversion},
-  ranker: {html: "createRanking.html", cbfn: initiateRanking},
-  docReview: {html: "documentReview.html", cbfn: initiateDocReview},
-  search: {html: "askQuestion.html", cbfn: initiateRetrieve},
-  compare: {html: "compareRetrieveAndRank.html", cbfn: initiateFind}
+  discovery: {html: "discovery.html", cbfn: initiateDiscovery},
+  discovery_admin: {html: "discovery_admin.html", cbfn: initiateDiscovery_admin}
 }
 
 // the loadPage routine would benefit from an update.
@@ -144,4 +143,51 @@ function loadPage(_target)
 {
   $.when($.get(loaderTarget[_target].html)).done(function(page)
   {$("#body").empty(); $("#body").append(page); loaderTarget[_target].cbfn();})
+}
+
+/**
+ * getIt issues a get request to the target URL, issued by the _source method, and issues a callback to _display on successful completion
+ * @param {String} _target - URL to invoke
+ * @param {String} _source - invoking method
+ * @param {String} _display - callback method
+ * @param {String} d_target - error message target
+ * 
+ */
+function getIt(_target, _source, _display, d_target)
+{
+  $.when(
+    $.get(_target)).done(
+      function(_res){
+        d_target.empty(); let _str = ''; 
+        if (_res.result === 'success')
+        { _str = _display(_res);}
+        else
+        { _str = '<h3>'+_source+' failed with error:</h3><br/>'+JSON.stringify(_res.message); }
+        d_target.append(_str);
+      });
+
+}
+
+/**
+ * potIt issues a post request to the target URL, issued by the _source method, and issues a callback to _display on successful completion
+ * @param {String} _target - URL to invoke
+ * @param {String} _source - invoking method
+ * @param {String} _display - callback method
+ * @param {String} d_target - error message target
+ * @param {String} _options - post options
+ * 
+ */
+function postIt(_target, _source, _display, d_target, _options)
+{
+  $.when(
+    $.post(_target, _options)).done(
+      function(_res){
+        d_target.empty(); let _str = ''; 
+        if (_res.result === 'success')
+        { _str = _display(_res, d_target);}
+        else
+        { _str = '<h3>'+_source+' failed with error:</h3><br/>'+JSON.stringify(_res.message); }
+        d_target.append(_str);
+      });
+
 }
