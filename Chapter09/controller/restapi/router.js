@@ -34,4 +34,4 @@ router.post('/auth/logout*', auth.logout);
 
 router.post('/images/upload', images.upload);
 router.post('/images/classify', images.classify);
-router.post('/images/find', images.find);
+router.post('/images/detect', images.detect);

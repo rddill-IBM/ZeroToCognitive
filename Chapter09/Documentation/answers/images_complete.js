@@ -54,48 +54,58 @@ exports.upload= function(req, res, next){
 exports.classify= function(req, res, next){
 
   req.pipe(req.busboy);
-  req.busboy.on('file', function(fieldname, file, filename) {
+  req.busboy.on('file', function(fieldname, file, filename) 
+  {
     // not all file systems are friendly to names with spaces in them. 
     // if this name has spaces in it, replace them with an underscore. 
-      var fileName = filename.replace(/ /g,"_");
-      var newFile = path.join(path.dirname(require.main.filename),'images',fileName);
-      var fd = fs.openSync(newFile, 'w');
-      var fstream = fs.createWriteStream(newFile, {fd: fd});
-      file.pipe(fstream);
-      // now that we have the image stored on the server, send it to watson
-      fstream.on('close', function () {
-        var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
-        var visual_recognition = watson.visual_recognition({
-          api_key: apiKey,
-          version: 'v3', version_date: '2016-05-20'
-        });
-        visual_recognition.classify(params, function(err, classify_results) {
-          // if there is an error, log it. 
-          // this should be extended to include a res.send() so the browser does not repeat the request
-          // which it will do on requests with no response
-          if (err) {console.log(err);}
-          else
-          // the request was successful, send the results back to the browser
-          {   res.send(classify_results); }
-        });
-      } );
+    var fileName = filename.replace(/ /g,"_");
+    var newFile = path.join(path.dirname(require.main.filename),'images',fileName);
+    var fd = fs.openSync(newFile, 'w');
+    var fstream = fs.createWriteStream(newFile, {fd: fd});
+    var _res = {};
+    file.pipe(fstream);
+    // now that we have the image stored on the server, send it to watson
+    fstream.on('close', function () 
+    {
+      var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
+      var visual_recognition = watson.visual_recognition(
+      {
+        api_key: apiKey,
+        version: 'v3', version_date: '2016-05-20'
+      });
+      visual_recognition.detectFaces(params, function(err, faces) 
+      {
+        if (err) {console.log(err); res.send({'results': 'failed', 'where': 'detectFaces', 'error': err});}
+        else 
+        {
+          console.log('detecFaces successful: '+JSON.stringify(faces)); _res.faces = faces;
+          var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
+          visual_recognition.classify(params, function(err, classify_results) 
+          {
+            if (err) {console.log(err); res.send({'results': 'failed', 'where': 'classify', 'error': err});}
+            else 
+            {
+              console.log('classify successful: '+JSON.stringify(classify_results)); _res.classify = classify_results;
+              res.send({'results': 'success', 'data': _res});
+            }
+          });
+        }
+      });
     });
-  }
+  });
+}
 
 /**
- * find looks in a collection of images to find those images which most closely match the provided image
+ * detect faces looks at an image to find the faces in it
  * @param {object} req - nodejs object with the request information 
  * req.body holds post parameters
- * req.body.collection - the id of the collection to use
  * @param {object} res - nodejs response object
  * @param {object} next - nodejs next object - used if this routine does not provide a response
  */
-exports.find= function(req, res, next){
+exports.detect= function(req, res, next){
   // get rid of blanks in the file name
     var imageName = req.body.image.replace(/ /g,"_");
     var newFile = path.join(path.dirname(require.main.filename),'images',imageName);
-    // save the collection name
-    var collectionName = req.body.collection;
     // read in the (previously transferred) file name
     var params = {image_file: fs.createReadStream(newFile), collection_id: collectionName };
     // set the visual_recognition parameters
@@ -103,12 +113,12 @@ exports.find= function(req, res, next){
       api_key: apiKey,
       version: 'v3', version_date: '2016-05-20'
     });
-    // request similar images
-    visual_recognition.findSimilar(params, function(err, similar_results) {
-      // on error, log the erro
-      if (err) {console.log(err);}
+    // request face recognition
+    visual_recognition.detectFaces(params, function(err, response) {
+     // on error, log the erro
+      if (err) {console.log(err); res.send({'results': 'failed', 'where': 'detectFaces', 'error': err});}
       else
       // send the results back to the browser
-      {res.send(similar_results);}
+      {console.log(JSON.stringify(response)); res.send({'results': 'success', 'data': response});}
     });
   }

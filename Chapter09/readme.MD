@@ -83,12 +83,73 @@ We worked with three files in the original version:
  - HTML/CSS/pageStyles.css
  - HTML/js/z2c-image.js
 
- Follow the original tutorial for changes to images.js and pageStyles.css, we will use those files in their original format. 
+ Follow the original tutorial for changes to pageStyles.css, we will use that file in its original format. 
 
+ ## images.js
+
+We no longer need the find routine, as that service is no longer available in Visual Recognition. We will execute two requests in the classification routine to extract both face information and ckassification information.
+### classification
+
+This function receives an image from the browser and then performs two transforms on that image. First, it looks to see if the image has a face in it and then classifies the image. We could, if we chose, stop the process after the face identification if it comes back with no identified faces. In this case we would need to update this function to execute a res.send() with an appropriately packaged JSON object. The display routine on the browser side would also have to be updated if the structure of the returned object changed. 
+```javascript
+/**
+ * classify saves the provided image and then sends that image to watson for classification
+ * @param {object} req - nodejs object with the request information 
+ * req.body holds post parameters
+ * @param {object} res - nodejs response object
+ * @param {object} next - nodejs next object - used if this routine does not provide a response
+ */
+exports.classify= function(req, res, next){
+
+  req.pipe(req.busboy);
+  req.busboy.on('file', function(fieldname, file, filename) 
+  {
+    // not all file systems are friendly to names with spaces in them. 
+    // if this name has spaces in it, replace them with an underscore. 
+    var fileName = filename.replace(/ /g,"_");
+    var newFile = path.join(path.dirname(require.main.filename),'images',fileName);
+    var fd = fs.openSync(newFile, 'w');
+    var fstream = fs.createWriteStream(newFile, {fd: fd});
+    var _res = {};
+    file.pipe(fstream);
+    // now that we have the image stored on the server, send it to watson
+    fstream.on('close', function () 
+    {
+      var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
+      var visual_recognition = watson.visual_recognition(
+      {
+        api_key: apiKey,
+        version: 'v3', version_date: '2016-05-20'
+      });
+      visual_recognition.detectFaces(params, function(err, faces) 
+      {
+        if (err) {console.log(err); res.send({'results': 'failed', 'where': 'detectFaces', 'error': err});}
+        else 
+        {
+          console.log('detecFaces successful: '+JSON.stringify(faces)); _res.faces = faces;
+          var params = {images_file: fs.createReadStream(newFile), classifier_ids: [vr_classifier] };
+          visual_recognition.classify(params, function(err, classify_results) 
+          {
+            if (err) {console.log(err); res.send({'results': 'failed', 'where': 'classify', 'error': err});}
+            else 
+            {
+              console.log('classify successful: '+JSON.stringify(classify_results)); _res.classify = classify_results;
+              res.send({'results': 'success', 'data': _res});
+            }
+          });
+        }
+      });
+    });
+  });
+}
+```
+ 
+ ## z2c-images.js
+ 
  We have less work to do in z2c-image.js than before. 
 
  functions: 
- ***initiateVR*** is called after authentication has succeeded. This function is unchanged from the original and looks like this: 
+ ***initiateVR*** is called after authentication has succeeded. This function was changed from the original, specifically to support face identification, so the image is now displayed into an HTML canvas element instead of an img element. You'll see those changes near the end of the function. 
  ```javascript
  /**
  * initialize the visual recognition page.
@@ -157,7 +218,9 @@ function initiateVR()
         // remove drag target highlighting when the mouse leaves the drag area
         _image.on('dragleave dragend drop', function() { _image.removeClass('dragover'); });
         // do the following when the image is dragged in and dropped
-        _image.on('drop', function(e) { droppedFiles = e.originalEvent.dataTransfer.files;
+        _image.on('drop', function(e) 
+        {
+          droppedFiles = e.originalEvent.dataTransfer.files;
           console.log("dropped file name: "+droppedFiles[0].name);
           // build a table to display image information
           var fileSpecs = "<table width='90%'><tr><td>File Name</td><td>"+droppedFiles[0].name+"</td></tr>";
@@ -171,12 +234,37 @@ function initiateVR()
           c_res.empty();
           // display the table
           c_res.append(fileSpecs);
-          // display the image
+          // load the image to get the original size of the inbound image. 
+          // we need this information to correctly draw a box around the face later on.
       		var reader = new FileReader();
       		reader.onload = function(e) {
-            var __image = '<center><img id="fileToLoad" src="' + e.target.result + '", height=200 /></center>'
-            _image.empty();
-            _image.append(__image); }
+            var __image = '<img id="fileToLoad" src="' + e.target.result + '", height=200 />'
+            _image.empty();  _image.append(__image); _image.hide();
+            var _img = $("#fileToLoad");
+            window.setTimeout(function()
+            {
+              // the display window is 200 pixels high. calculate the multiplication factor to fit this window and save it for later use
+              _factor = 200/_img[0].naturalHeight;
+              // calculate the target width
+              var _width = _factor*_img[0].naturalWidth; 
+              var _height = 200;
+              // create a drawing canvas and center it in the imageReceiver div
+              __image = '<center><canvas id="fileCanvas" width="'+_width+'" height="'+_height+'"></canvas></center>'
+              // empty the div of the image we just loaded and append this canvas to the now empty div
+              _image.empty(); _image.append(__image); 
+              // get the drawing context for the canvas
+              var ctx = $("#fileCanvas")[0].getContext("2d");
+              // create a drawable image
+              var imageObj = new Image();
+              // link the source to the image dropped on the imageReceiver div
+              imageObj.src = e.target.result;
+              // when the image has loaded into memory, draw it
+              imageObj.onload = function () {
+                ctx.drawImage(imageObj, 0, 0, _width, _height);
+              }
+              _image.show();
+              }, 100);
+          }
       		reader.readAsDataURL(droppedFiles[0]);
         });
         // update the image area css
@@ -205,33 +293,62 @@ we're going to remove the hyperlink ```<a>``` processing so that we just display
  */
 function displayImageClassificationResults(_target, _data)
 {
-  // empty the html target area
-  _target.empty();
-  console.log("displayImageClassificationResults entered with: "+_data);
-  // turn the returned string back into a JSON object
-  var imageResults = JSON.parse(_data);
-  console.log("displayImageClassificationResults parsed results: ",imageResults);
-
-  // create a display table
-  var _tbl = "<table width=90%><tr><th>Image Class</th><th>Probability</th><tr>";
-
-  var _image = imageResults.images[0].image;
-  // iterate through the classification results, displaying one table row for each result row
-  if (imageResults.images[0].classifiers.length === 0)
-  { _tbl += "<tr><td>No Results with higher than 50% probability</td></tr>"}
-  else
-  {
-    for (each in imageResults.images[0].classifiers[0].classes)
+    // empty the html target area
+    _target.empty();
+    // turn the returned string back into a JSON object
+    var imageResults = JSON.parse(_data);
+    // check to see if the request for face detection and clssification were both successful
+    if (imageResults.results !== 'success')
     {
-      (function (_idx, _obj) {
-      var _disabled = (collections[_obj[_idx].class] == null) ? ", mic_disabled" : "";
-      _tbl += '<tr><td class="col-md-6'+_disabled+'"><a onclick="findInCollection(\''+_image+'\',\''+_obj[_idx].class+'\')" class="btn btn-primary, showfocus">'+_obj[_idx].class+'</a></td><td>'+_obj[_idx].score+'</td></tr>"';
-      })(each, imageResults.images[0].classifiers[0].classes)
+      _target.append('Visual Recognition failed at: '+imageResults.where+' with error: <br/>'+imageResults.err.message);
+      return;
     }
-  }
+    // check to make sure that there was at least one face in the provided image
+    if (imageResults.data.faces.images[0].faces.length === 0)
+    {
+      _target.append('There is no face in the provided image: '+imageResults.data.faces.images[0].image);
+      return;
+    }
+    else
+    {
+      // get the rectangle of the first face found in the image
+      var _imgRect = imageResults.data.faces.images[0].faces[0].face_location;
+      // the top value provided is consistently about 1.3 times the actual vertical offset of the face
+      // the following correction factor is to address that bug
+      var vert_correction = 0.3;
+      // get the drawing context of the canvas
+      var ctx = $("#fileCanvas")[0].getContext("2d");
+      // create a rectangle to fit around the face
+      ctx.rect(_factor*_imgRect.left, vert_correction*_factor*_imgRect.top, _factor*_imgRect.width, _factor*_imgRect.height);
+      // set the line width to 6 pixels
+      ctx.lineWidth="6";
+      // set the line color to blue
+      ctx.strokeStyle="blue";
+      // draw the rectangle.
+      ctx.stroke(); 
+
+    }
+
+    // create a display table
+    var _tbl = "<table width=90%><tr><th>Image Class</th><th>Probability</th><tr>";
+
+    var _image = imageResults.data.classify.images[0].image;
+    // iterate through the classification results, displaying one table row for each result row
+    if (imageResults.data.classify.images[0].classifiers.length === 0)
+    { _tbl += "<tr><td>No Results with higher than 50% probability</td></tr>"}
+    else
+    {
+      for (each in imageResults.data.classify.images[0].classifiers[0].classes)
+      {
+        (function (_idx, _obj) {
+        _tbl += '<tr class="showFocus"><td class="col-md-6"><b>'+_obj[_idx].class+'</b></td><td>'+_obj[_idx].score+'</td></tr>';
+        })(each, imageResults.data.classify.images[0].classifiers[0].classes)
+      }
+    }
     // close the table
     _tbl += "</table>";
     // and append it to the target.
+    console.log(_tbl);
     _target.append(_tbl);
 }
 ```
@@ -257,4 +374,5 @@ Now that you've completed your code updates, what will this program do?
       - male - not you, but probably a male
       - female - not you, but probably a female
       - you - this will display the name of your zip file (hence the earlier recommendation to make the name memorable)
+      - The application will also draw a box around the first (highest probability) face found in the provided image.
     - you can find test images simply by doing a web search for face images, which allows you to use different images in your demonstration.

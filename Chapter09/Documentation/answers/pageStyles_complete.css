@@ -6,8 +6,8 @@
 
 .imageReceiver {
 		background-color: #E0F8E0;
-		width: 200px;
-		height: 200px
+		min-width: 200px;
+		min-height: 200px;
 	}
 .dd_upload {
   outline: 2px solid #298A08;
