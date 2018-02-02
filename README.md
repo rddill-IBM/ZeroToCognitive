@@ -2,7 +2,7 @@
 
 This is the tutorial site for the Zero to Cognitive Series. Each chapter in the Tutorial is a completely self contained folder. 
 
-We are currently at release 1.3, which includes updates to Chapter 8 (Watson Discover News), Chapter 9 (Visual Recognition) and Chapter 11 (Watson Discovery). Release notes are here: [https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3](https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3) 
+We are currently at release 1.3, which includes updates to Chapter 8 (Watson Discover News), Chapter 9 (Visual Recognition) and Chapter 11 (Watson Discovery). Release notes are here: [https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3](https://github.com/rddill-IBM/ZeroToCognitive/releases/tag/1.3.1) 
 
 ***Please note that the videos for Chapters 8, 9 and 11 are currently incorrect. Please use the ReadME files in those chapters for explanations of the new code.***
 
