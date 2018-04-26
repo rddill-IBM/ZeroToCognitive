@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/rddill-IBM/ZeroToCognitive"
   },
-  "engines": {},
+  "engines": {"node" : ">=8.10"},
   "keywords": [
     "Watson",
     "Cognitive",
