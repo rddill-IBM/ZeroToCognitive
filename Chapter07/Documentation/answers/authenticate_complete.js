@@ -78,7 +78,7 @@ exports.register = function(req, res, next)
   var uid = null; uid = req.body.uid;
   var _pw = null; _pw = req.body.pw;
   var cipher = encrypt.createCipher('aes192', secret);
-  encrypt the stored password
+  // encrypt the stored password
   var pw = cipher.update(_pw, 'utf8', 'hex');
   pw += cipher.final('hex');
   // attempt to retrieve this userid from the database. if the get is successful, then the userid already exists and registration will fail
