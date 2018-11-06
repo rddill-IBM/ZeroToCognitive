@@ -16,14 +16,26 @@
  /*
 ** z2c-speech.js
 */
+
+var stt_token;
 /**
  * initPage is called by the browser once all files have loaded from the server. 
  * This is specified in the index.html file via the <body onLoad='initPage'> statement
  */
 function initPage ()
 {
+  var methodName = 'initPage';
   // define the variables we need to access the microphone and stop icons in the web page
   var _mic = $('#microphone'); var _stop = $("#stop");
+  $.when($.get('/api/speech-to-text/token')).done(
+    function(_token) 
+    { if (_token.success != 'undefined')
+      {stt_token = _token.success; console.log(methodName+' stt_token request succeeded.');}
+      else
+      {stt_token = null; console.log(methodName+' token request failed with: ',_token.failed);}
+    }
+    );
+  
   // start things off by enabling the microphone button and disabling the stop recording button
     _mic.addClass("mic_enabled");
     _stop.addClass("mic_disabled");
@@ -31,7 +43,6 @@ function initPage ()
     // Identify what to do when the microphone button has been clicked
   _mic.on("click", function ()
     {
-      var _className = this.className;
       // if the microphone button is enabled, then do the following. 
       // otherwise, ignore the mouse button click
       if(this.className == "mic_enabled")
@@ -50,18 +61,15 @@ function initPage ()
         // I'll leave it to you to make this change, it's pretty simple
         // and will make your app run more smoothly
         //
-        $.when($.get('/api/speech-to-text/token')).done(
-          function (token) {
-            // the stream is what comes in from the microphone
-            stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-              // it needs the token received from the server
-               token: token,
-               // and the outputElement is the html element defined with an id="speech" statement
-               outputElement: '#speech' // CSS selector or DOM Element
-             });
-             // if there's an error in this process, log it to the browser console.
-            stream.on('error', function(err) { console.log(err); });
+        // the stream is what comes in from the microphone
+        stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+          // it needs the token received from the server
+          access_token: stt_token,
+            // and the outputElement is the html element defined with an id="speech" statement
+            outputElement: '#speech' // CSS selector or DOM Element
           });
+          // if there's an error in this process, log it to the browser console.
+        stream.on('error', function(err) { console.log(err); });
         }
       });
 

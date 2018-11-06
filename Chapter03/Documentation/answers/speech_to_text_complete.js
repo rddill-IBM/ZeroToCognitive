@@ -18,6 +18,7 @@
 var extend = require('extend');
 var watson = require('watson-developer-cloud');
 var vcapServices = require('vcap_services');
+var request = require('request');
 
 // load in the environment data for our application
 var config = require('../../env.json');
@@ -28,24 +29,21 @@ var config = require('../../env.json');
  * @param {NodeJS Request Object} req - provides information about the inbound request
  * @param {NodeJS Response Object} res - this is how we respond back to the browser
  */
-exports.token = function(req, res) {
-    // the extend function adds additional information into our credentials from within the 
-    // Watson and Bluemix operating environment
-    var sttConfig = extend(config.speech_to_text, vcapServices.getCredentials('speech_to_text'));
-    // request authorization to access the service
-    var sttAuthService = watson.authorization(sttConfig);
-
-    // now that we're authenticated, get the token
-    sttAuthService.getToken({
-        url: sttConfig.url
-    }, function(err, token) {
-        if (err) {
-            // send an error back if we cannot retrieve the token successfully
-            console.log('Error retrieving token: ', err);
-            res.status(500).send('Error retrieving token'+ReferenceError);
-            return;
-        }
-        // if we're successful, then send the new token back to the browser
-        res.send(token);
+exports.stt_token = function(req, res) {
+    var methodName = 'stt_token';
+    // The following three lines translate the curl request provided by IBM into a nodeJS request format so that the token can be retrieved by your server code. 
+    var form = { grant_type: 'urn:ibm:params:oauth:grant-type:apikey', apikey: config.speech_to_text.apikey }
+    var headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' };
+    var options = { url: 'https://iam.bluemix.net/identity/token', method: 'POST', form: form, headers: headers };
+    
+    // get the new token
+    request(options, function (error, response, body) 
+    {
+        if (!error && response.statusCode == 200) 
+        // send the token back as the 'success' item in the returned json object
+        { res.send({success: JSON.parse(body).access_token}); }
+        else 
+        // send the failure message back as the 'failed' item in the returned json object.
+        { console.log(methodName+' error: ', error); res.send({failed: error.message}) }
     });
 }
